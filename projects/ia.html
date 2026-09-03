@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA — Agents LLM &amp; métadonnées — Nazim Allaoua</title>
+<meta name="description" content="Rejeu du prototype de mon mémoire de Master : analyse de données automatisée par agents LLM raisonnant uniquement sur des métadonnées, avec module local de confiance, guardrails et audit de confidentialité.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c8cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='%230a0e17' text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+<style>
+  .meta-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; }
+  .meta-chip { font-size: 12.5px; padding: 6px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); }
+  .meta-chip b { color: var(--text); }
+  .meta-chip.warn { border-color: rgba(251,191,36,.35); color: var(--warn); background: rgba(251,191,36,.08); }
+
+  .pipeline-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--text-faint); margin: 6px 0 14px; }
+  .pipeline-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+  .swatch.system { background: var(--surface-strong); border: 1px solid var(--accent-2); }
+  .swatch.agent { background: var(--grad); }
+
+  .agent-pipeline { display: grid; gap: 12px; margin-bottom: 24px; }
+  .agent-step { display: flex; gap: 14px; padding: 16px 18px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); opacity: .45; transition: opacity .3s ease, border-color .3s ease; }
+  .agent-step.running, .agent-step.done, .agent-step.warn { opacity: 1; }
+  .agent-step.running { border-color: rgba(34,211,238,.4); }
+  .agent-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .agent-avatar.system { background: var(--surface-strong); border: 1px solid var(--accent-2); color: var(--accent-2); }
+  .agent-avatar.agent { background: var(--grad); color: #0a0e17; }
+  .agent-body { flex: 1; min-width: 0; }
+  .agent-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 3px; flex-wrap: wrap; }
+  .agent-role { font-size: 12.5px; color: var(--text-faint); margin-bottom: 8px; }
+  .zone-tag { font-size: 10.5px; padding: 2px 8px; border-radius: 999px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
+  .zone-tag.system { color: var(--accent-2); background: rgba(34,211,238,.10); border: 1px solid rgba(34,211,238,.25); }
+  .zone-tag.agent { color: var(--accent-3); background: rgba(192,132,252,.10); border: 1px solid rgba(192,132,252,.3); }
+  .agent-status { font-size: 11px; padding: 2px 9px; border-radius: 999px; background: var(--surface-strong); color: var(--text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+  .agent-status.running { color: var(--accent-2); background: rgba(34,211,238,.12); }
+  .agent-status.done { color: var(--good); background: rgba(52,211,153,.12); }
+  .agent-msg { font-size: 14.5px; color: var(--text-dim); line-height: 1.6; }
+  .agent-msg b, .agent-log b { color: var(--text); }
+  .agent-log { display: grid; gap: 4px; margin-top: 8px; }
+  .log-line { font-size: 13px; color: var(--text-dim); padding: 6px 10px; border-radius: 7px; background: rgba(255,255,255,.03); border: 1px solid var(--border); }
+  .log-line.retry { border-color: rgba(251,191,36,.3); background: rgba(251,191,36,.06); }
+  .log-line .tag { font-family: "Space Grotesk", monospace; font-size: 11.5px; color: var(--accent); margin-right: 6px; }
+  .log-line .ok { color: var(--good); font-weight: 600; }
+  .log-line .ko { color: var(--warn); font-weight: 600; }
+  .artefact { margin-top: 10px; }
+  .artefact summary { cursor: pointer; font-size: 12.5px; color: var(--text-faint); user-select: none; }
+  .artefact summary code { color: var(--accent-2); font-size: 12px; }
+  .artefact pre { margin: 8px 0 0; padding: 12px 14px; border-radius: 8px; background: #0b0e17; border: 1px solid var(--border); font-size: 12.3px; line-height: 1.5; max-height: 280px; overflow: auto; }
+  .think { display: inline-flex; gap: 4px; }
+  .think span { width: 5px; height: 5px; border-radius: 50%; background: var(--text-faint); display: inline-block; animation: think 1s infinite ease-in-out; }
+  .think span:nth-child(2) { animation-delay: .15s; }
+  .think span:nth-child(3) { animation-delay: .3s; }
+  @keyframes think { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+  .dim { color: var(--text-faint); }
+
+  .zone-rect { fill: rgba(255,255,255,.015); stroke: var(--border-strong); stroke-width: 1; stroke-dasharray: 5 4; }
+  .zone-title { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 13.5px; fill: var(--text); }
+  .zone-sub { font-family: "Inter", sans-serif; font-size: 11px; fill: var(--text-faint); }
+  .boundary { stroke: var(--warn); stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .boundary-label { font-family: "Inter", sans-serif; font-size: 10.5px; fill: var(--warn); font-weight: 600; letter-spacing: .05em; }
+  .flow { stroke: var(--accent-2); stroke-width: 1.6; fill: none; }
+  .flow-label { font-family: "Inter", sans-serif; font-size: 12px; font-weight: 600; fill: var(--accent-2); }
+
+  .eval-table { min-width: 0 !important; }
+  .eval-note { font-size: 13px; color: var(--text-faint); margin: 10px 2px 0; }
+</style>
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <div class="container">
+    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span>Menu</span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#profil">Profil</a></li>
+      <li><a href="../index.html#experience">Expérience</a></li>
+      <li><a href="../index.html#formation">Formation</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-hero">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> IA — Agents LLM &amp; métadonnées</div>
+    <div class="disclaimer reveal">⚠ Échantillons synthétiques reproduisant les schémas des jeux Kaggle du mémoire</div>
+    <div class="disclaimer reveal">Sorties LLM rejouées depuis des artefacts pré-enregistrés</div>
+    <h1 class="reveal">IA — Agents LLM &amp; métadonnées</h1>
+    <div class="skills-demo reveal">
+      <span>Systèmes multi-agents LLM</span><span>Privacy-by-design</span><span>Raisonnement sur métadonnées</span>
+      <span>Guardrails &amp; contrats Pydantic</span><span>Python · CrewAI · Streamlit · GPT-4o</span>
+    </div>
+    <div class="explain-grid reveal">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Le prototype original (mémoire de Master UNIGE) tourne en local avec CrewAI, GPT-4o et Pydantic pour les contrats d'artefacts. Cette démo en rejoue l'architecture dans le navigateur : le module système s'exécute réellement, les sorties d'agents sont pré-enregistrées — un site public ne peut exposer ni clé d'API ni coût variable.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Séparation données–raisonnement, orchestration multi-agents avec artefacts traçables, guardrails avec reprise contrôlée, audit automatisé de confidentialité.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <nav class="proj-tabs reveal" aria-label="Sections du projet">
+      <a href="#analyse">Analyse</a>
+      <a href="#modele-donnees">Architecture</a>
+      <a href="#resultats">Résultats</a>
+      <a href="#code">Exemple de code</a>
+    </nav>
+
+    <div class="tab-panel" id="analyse">
+    <div class="dash">
+
+      <div class="filter-bar">
+        <div class="field field-wide">
+          <label for="f-dataset">Jeu de données (Kaggle, cf. mémoire)</label>
+          <select id="f-dataset"></select>
+        </div>
+        <div class="field grow-0">
+          <label>Mode d'orchestration</label>
+          <div class="method-toggle">
+            <button id="btn-multi" class="active">Multi-agent</button>
+            <button id="btn-mono">Mono-agent</button>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm run-btn" id="run-pipeline">Lancer l'analyse one-click ▶</button>
+      </div>
+
+      <div class="meta-chips" id="dataset-meta"></div>
+
+      <div class="kpi-row">
+        <div class="kpi"><span class="label">Étapes validées</span><span class="value" id="kpi-etapes">—</span></div>
+        <div class="kpi"><span class="label">Reprises guardrail</span><span class="value" id="kpi-reprises">—</span></div>
+        <div class="kpi"><span class="label">Requêtes exécutées</span><span class="value" id="kpi-sous">—</span></div>
+        <div class="kpi"><span class="label">Audit confidentialité · expositions</span><span class="value" id="kpi-audit">—</span></div>
+      </div>
+
+      <div class="pipeline-legend">
+        <span><i class="swatch system"></i> Module système local — seul composant qui lit les données</span>
+        <span><i class="swatch agent"></i> Agent LLM — reçoit uniquement des métadonnées et des artefacts</span>
+        <span>Cliquez sur « Artefact » pour ouvrir la sortie JSON de chaque étape</span>
+      </div>
+
+      <div class="agent-pipeline" id="agent-pipeline"></div>
+
+      <div class="chart-box" id="charts-box" hidden style="background:transparent;border:none;padding:0;">
+        <h4>Visualisations rendues par le module système</h4>
+        <div class="sub" style="margin-bottom:12px;">Spécifiées par l'agent à partir des métadonnées de sortie, tracées ici à partir des résultats réels</div>
+        <div class="chart-grid" id="charts-grid"></div>
+      </div>
+
+      <div class="insight-panel" id="rapport-panel" hidden>
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Rapport d'analyse</h4><span id="rapport-sub">—</span></div>
+        </div>
+        <div class="insight-list" id="rapport-list"></div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="subsection tab-panel" id="modele-donnees" hidden>
+      <div class="section-head">
+        <h2>Une frontière de confiance entre données et raisonnement</h2>
+        <p>La confidentialité n'est pas une mesure ajoutée en fin de chaîne mais une propriété architecturale : le module système local est le seul composant autorisé à lire les valeurs brutes ; les agents ne reçoivent que des métadonnées et renvoient des artefacts structurés, validés avant toute exécution. Les deux colonnes ci-dessous se répondent ligne à ligne : à chaque tâche du système correspond l'agent qui la déclenche ou qui en consomme le résultat.</p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="#22d3ee"/>
+              </marker>
+            </defs>
+
+            <rect class="zone-rect" x="25" y="30" width="400" height="360" rx="14"/>
+            <text x="45" y="58" class="zone-title">Module système local de confiance</text>
+            <text x="45" y="76" class="zone-sub">Accès aux données brutes · aucun LLM · exécution locale</text>
+            <g class="schema-box">
+              <rect x="45" y="100" width="360" height="42" rx="9"/><text x="60" y="126" class="tbl-field" style="fill:var(--text)">1 · Import &amp; validation des fichiers</text>
+              <rect x="45" y="154" width="360" height="42" rx="9"/><text x="60" y="180" class="tbl-field" style="fill:var(--text)">2 · Extraction des métadonnées</text>
+              <rect x="45" y="208" width="360" height="42" rx="9"/><text x="60" y="234" class="tbl-field" style="fill:var(--text)">3 · Exécution contrôlée des requêtes</text>
+              <rect x="45" y="262" width="360" height="42" rx="9"/><text x="60" y="288" class="tbl-field" style="fill:var(--text)">4 · Rendu des visualisations</text>
+              <rect x="45" y="316" width="360" height="42" rx="9"/><text x="60" y="342" class="tbl-field" style="fill:var(--text)">5 · Guardrails, reprises &amp; persistance</text>
+            </g>
+
+            <line class="boundary" x1="450" y1="20" x2="450" y2="405"/>
+            <text x="450" y="422" text-anchor="middle" class="boundary-label">FRONTIÈRE DE CONFIANCE</text>
+
+            <rect class="zone-rect" x="475" y="30" width="400" height="360" rx="14"/>
+            <text x="495" y="58" class="zone-title">Couche de raisonnement — agents LLM</text>
+            <text x="495" y="76" class="zone-sub">Métadonnées uniquement · aucune ligne, aucun échantillon</text>
+            <g class="schema-box">
+              <rect x="495" y="100" width="360" height="42" rx="9"/><text x="510" y="126" class="tbl-field" style="fill:var(--text)">1 · Schema Interpreter — interprétation sémantique</text>
+              <rect x="495" y="154" width="360" height="42" rx="9"/><text x="510" y="180" class="tbl-field" style="fill:var(--text)">2 · Business Analyst — axes &amp; sous-analyses</text>
+              <rect x="495" y="208" width="360" height="42" rx="9"/><text x="510" y="234" class="tbl-field" style="fill:var(--text)">3 · Query Builder — requêtes exécutables</text>
+              <rect x="495" y="262" width="360" height="42" rx="9"/><text x="510" y="288" class="tbl-field" style="fill:var(--text)">4 · Visualization Designer — spécifications de visuels</text>
+              <rect x="495" y="316" width="360" height="42" rx="9"/><text x="510" y="342" class="tbl-field" style="fill:var(--text)">5 · Confidentiality Tester — audit final</text>
+            </g>
+
+            <path class="flow" d="M405 148 L 475 148" marker-end="url(#arr)"/>
+            <text x="440" y="140" text-anchor="middle" class="flow-label">métadonnées</text>
+            <path class="flow" d="M475 256 L 405 256" marker-end="url(#arr)"/>
+            <text x="440" y="248" text-anchor="middle" class="flow-label">artefacts JSON</text>
+
+            <text x="450" y="452" text-anchor="middle" class="schema-label">Les données brutes (CSV / Excel) restent dans le module système — jamais transmises aux agents, à aucune étape.</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection tab-panel" id="resultats" hidden>
+      <div class="section-head">
+        <h2>Ce que l'évaluation expérimentale a montré</h2>
+        <p>Résultats réels obtenus avec le prototype (GPT-4o, exécutions répétées depuis l'application Streamlit, sans intervention manuelle). Quatre questions de recherche : faisabilité, confidentialité, qualité, apport du multi-agent.</p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+        <div class="kpi-row">
+          <div class="kpi"><span class="label">RQ2 · Confidentialité</span><span class="value">0 <span class="trend" style="color:var(--good)">exposition</span></span><span class="eval-note">2 jeux sensibles (santé, crédit) — verdict PASS</span></div>
+          <div class="kpi"><span class="label">RQ1 · Faisabilité</span><span class="value">5/5</span><span class="eval-note">succès sur données propres, y compris multi-tables</span></div>
+          <div class="kpi"><span class="label">RQ3 · Qualité</span><span class="value">15/15</span><span class="eval-note">sous-analyses exactes, visuels appropriés 14/15</span></div>
+          <div class="kpi"><span class="label">RQ4 · Multi vs mono</span><span class="value">13 <span class="trend" style="color:var(--text-faint)">vs 4</span></span><span class="eval-note">dimensions couvertes — mono-agent 11× plus rapide</span></div>
+        </div>
+        <h4 style="margin:26px 0 12px;">RQ1 — Faisabilité par jeu de données (5 exécutions)</h4>
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table class="data-table eval-table">
+              <thead><tr><th>Jeu de données</th><th>Temps moyen</th><th>Succès</th><th>Coût / succès</th></tr></thead>
+              <tbody>
+                <tr><td>Students Performance</td><td>209 s</td><td><span class="status-pill ok">5/5</span></td><td>0.24 $</td></tr>
+                <tr><td>Olist — 9 tables</td><td>406 s</td><td><span class="status-pill ok">5/5</span></td><td>0.51 $</td></tr>
+                <tr><td>Cafe Sales — dirty</td><td>154 s</td><td><span class="status-pill late">2/5</span></td><td>0.88 $</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <h4 style="margin:22px 0 12px;">RQ4 — Multi-agent vs mono-agent (3 exécutions, même jeu de données)</h4>
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table class="data-table eval-table">
+              <thead><tr><th>Mode</th><th>Temps</th><th>Coût</th><th>Axes</th><th>Sous-analyses</th></tr></thead>
+              <tbody>
+                <tr><td>Multi-agent</td><td>260 s</td><td>0.39 $</td><td>5–6</td><td>13–15</td></tr>
+                <tr><td>Mono-agent</td><td>23 s</td><td>0.03 $</td><td>2</td><td>4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="eval-note" style="margin-top:18px;">Lecture : la complexité relationnelle augmente latence et coût mais pas l'échec ; une qualité de données dégradée fait chuter la robustesse (2/5) — c'est le scénario que la démo « Cafe Sales » rejoue avec ses reprises guardrail. Le multi-agent apporte de la profondeur et de la traçabilité, le mono-agent de la vitesse et un coût 13× inférieur : le choix dépend du besoin.</p>
+      </div>
+    </div>
+
+    <div class="subsection tab-panel" id="code" hidden>
+      <div class="section-head">
+                <h2>Métadonnées, contrats d'artefacts &amp; agents</h2>
+        <p>Voici quelques extraits de code utilisés pour la conception de ce projet.</p>
+      </div>
+      <div class="dash" style="padding-top:0;">
+        <div class="code-panel">
+          <div class="code-tabs">
+            <button class="active" data-tab="py1">Python — extraction de métadonnées [Système]</button>
+            <button data-tab="py2">Python — contrat Pydantic &amp; guardrail</button>
+            <button data-tab="yaml1">YAML — agents CrewAI</button>
+          </div>
+          <div class="code-block-group active" data-group="py1">
+            <p class="code-caption">Seul artefact transmis aux agents. Pour les colonnes sensibles, min/max et modalités sont retenus : seuls des agrégats non identifiants circulent.</p>
+            <pre><code class="language-python">import pandas as pd
+
+def extraire_metadonnees(df: pd.DataFrame, colonnes_sensibles: set[str]) -> dict:
+    """Structure, types, complétude, statistiques globales.
+    Jamais de ligne, jamais d'échantillon."""
+    colonnes = []
+    for col in df.columns:
+        s = df[col]
+        info = {"nom": col, "type": str(s.dtype),
+                "completude_pct": round(100 * s.notna().mean(), 1)}
+        if pd.api.types.is_numeric_dtype(s):
+            if col in colonnes_sensibles:            # min/max retenus
+                info["statistiques"] = {"moyenne": round(s.mean(), 2),
+                                        "ecart_type": round(s.std(), 2)}
+            else:
+                info["statistiques"] = {"min": s.min(), "max": s.max(),
+                                        "moyenne": round(s.mean(), 2)}
+        elif s.nunique() <= 12:
+            info["n_distinct"] = int(s.nunique())
+            if col not in colonnes_sensibles:
+                info["modalites"] = s.value_counts().index[:6].tolist()
+        colonnes.append(info)
+    return {"n_lignes": len(df), "n_colonnes": df.shape[1], "colonnes": colonnes}</code></pre>
+          </div>
+          <div class="code-block-group" data-group="py2">
+            <p class="code-caption">Chaque sortie d'agent doit respecter un contrat ; si la structure est invalide ou si l'exécution échoue, le système renvoie un retour d'erreur (au niveau métadonnées) et relance l'agent, 3 tentatives au maximum.</p>
+            <pre><code class="language-python">from pydantic import BaseModel, ValidationError
+
+class SousAnalyse(BaseModel):
+    id: str
+    question: str
+    requete: str
+
+class Axe(BaseModel):
+    id: str
+    titre: str
+    sous_analyses: list[SousAnalyse]
+
+class PlanAnalyse(BaseModel):
+    axes: list[Axe]
+
+MAX_TENTATIVES = 3
+
+def executer_avec_guardrail(agent, tache, valider, executer):
+    retour = None
+    for tentative in range(1, MAX_TENTATIVES + 1):
+        sortie = agent.run(tache, retour_erreur=retour)
+        try:
+            artefact = valider(sortie)        # JSON conforme au contrat ?
+            resultat = executer(artefact)     # exécution contrôlée côté système
+            persister(tentative, artefact, resultat)
+            return resultat
+        except (ValidationError, ExecutionError) as e:
+            # retour au niveau métadonnées : colonne + % invalides, jamais de valeur brute
+            retour = e.message_metadonnees()
+    raise EtapeEchouee(tache, MAX_TENTATIVES)</code></pre>
+          </div>
+          <div class="code-block-group" data-group="yaml1">
+            <p class="code-caption">Rôle, objectif et « backstory » de chaque agent sont externalisés dans ce fichier de configuration CrewAI — le code Python ne fait que charger ces définitions et enchaîner les tâches.</p>
+            <pre><code class="language-yaml"># crew/config/agents.yaml
+
+schema_interpreter:
+  role: >
+    Data Schema Interpreter
+  goal: >
+    Turn raw column-level metadata (types, completeness, global statistics)
+    into a semantic interpretation: infer the business domain, the role of
+    each column (dimension, measure, identifier), and flag sensitive fields.
+  backstory: >
+    You are a senior data analyst onboarding onto a brand-new dataset. You
+    never see a single row or sample value — only the metadata catalog
+    produced by the trusted system layer. Your job is to make sense of a
+    schema the way a human would on day one, before writing a single query.
+  llm: gpt-4o
+  allow_delegation: false
+  verbose: true
+
+business_analyst:
+  role: >
+    Business Analyst
+  goal: >
+    Turn the schema interpretation into a concrete analysis plan: a set of
+    axes, each broken down into business questions the data can answer.
+  backstory: >
+    You think in terms of decisions, not tables. Given only a semantic
+    description of a dataset, you draft the same analysis plan a business
+    stakeholder would expect a data team to deliver.
+  llm: gpt-4o
+  allow_delegation: false
+  verbose: true
+
+query_builder:
+  role: >
+    Query Builder
+  goal: >
+    Translate each business question into an executable aggregation query.
+    Revise the query when the system layer reports a validation error,
+    using only the structured feedback it returns — never raw data.
+  backstory: >
+    You write structured aggregation specs, not free-text SQL: every query
+    is an object the trusted system can validate and execute safely before
+    a single result reaches you or any other agent.
+  llm: gpt-4o
+  allow_delegation: false
+  verbose: true
+
+visualization_designer:
+  role: >
+    Visualization Designer
+  goal: >
+    Pick an appropriate chart type and title for each query result, based
+    solely on the metadata of that result (shape, column types, cardinality)
+    — never on the underlying values.
+  backstory: >
+    You have never actually seen a chart render. You reason purely from
+    "this result has 6 categorical groups and one numeric measure" to
+    "this should be a bar chart" — rendering happens downstream, inside
+    the trusted system, on the real data you never had access to.
+  llm: gpt-4o
+  allow_delegation: false
+  verbose: true
+
+confidentiality_tester:
+  role: >
+    Confidentiality Auditor
+  goal: >
+    Attempt to extract exact raw values from the shared memory and from
+    every artefact produced so far in the run. Return a PASS/FAIL verdict
+    together with the number of exposures found, if any.
+  backstory: >
+    You are an adversarial reviewer, not a collaborator. Your only goal is
+    to break the privacy guarantee the other agents claim to uphold — and
+    to report honestly the moment you succeed.
+  llm: gpt-4o
+  allow_delegation: false
+  verbose: true</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-proj reveal">
+      <a href="qualite-donnees.html">← Projet précédent : Qualité — Détection d'anomalies</a>
+      <a href="../index.html#projets">Retour aux projets →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
+    <div class="foot-links">
+      <a href="../index.html#profil">Profil</a>
+      <a href="../index.html#experience">Expérience</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="../js/main.js?v=3"></script>
+<script src="../js/data/ia-data.js?v=4"></script>
+<script src="../js/dashboards/ia.js?v=4"></script>
+</body>
+</html>

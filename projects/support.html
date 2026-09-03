@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — Tickets &amp; SLA — Nazim Allaoua</title>
+<meta name="description" content="Dashboard interactif de suivi des tickets support et du respect des SLA — projet de démonstration Data Analyst.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c8cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='%230a0e17' text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <div class="container">
+    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span>Menu</span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#profil">Profil</a></li>
+      <li><a href="../index.html#experience">Expérience</a></li>
+      <li><a href="../index.html#formation">Formation</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-hero">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> Support — Tickets &amp; SLA</div>
+    <div class="disclaimer reveal">⚠ Données 100% fictives, générées à des fins de démonstration</div>
+    <h1 class="reveal">Support — Tickets &amp; SLA</h1>
+    <div class="skills-demo reveal">
+      <span>Filtrage multi-critères en temps réel</span><span>Agrégations dynamiques</span>
+      <span>Suivi de SLA</span><span>Table triable &amp; paginée</span><span>Visualisation de données</span>
+    </div>
+    <div class="explain-grid reveal">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Près de 1750 tickets fictifs sur 24 mois, avec des cibles SLA différenciées par priorité — 4h pour le critique, 72h pour le bas.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Suivi d'indicateurs opérationnels (SLA, satisfaction), requêtes SQL par dimension, vérification d'hypothèses en Python.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <nav class="proj-tabs reveal" aria-label="Sections du projet">
+      <a href="#analyse">Analyse</a>
+      <a href="#modele-donnees">Modèle de données</a>
+      <a href="#code">Exemple de code</a>
+    </nav>
+
+    <div class="tab-panel" id="analyse">
+    <div class="dash">
+
+      <div class="filter-bar">
+        <div class="field">
+          <label for="f-categorie">Catégorie</label>
+          <select id="f-categorie"><option value="">Toutes les catégories</option></select>
+        </div>
+        <div class="field">
+          <label for="f-priorite">Priorité</label>
+          <select id="f-priorite"><option value="">Toutes les priorités</option></select>
+        </div>
+        <div class="field">
+          <label for="f-statut">Statut</label>
+          <select id="f-statut"><option value="">Tous les statuts</option></select>
+        </div>
+        <div class="field">
+          <label for="f-canal">Canal</label>
+          <select id="f-canal"><option value="">Tous les canaux</option></select>
+        </div>
+        <div class="field grow-0">
+          <label for="f-du">Du</label>
+          <select id="f-du"></select>
+        </div>
+        <div class="field grow-0">
+          <label for="f-au">Au</label>
+          <select id="f-au"></select>
+        </div>
+        <button class="btn btn-ghost btn-sm reset-btn" id="reset-filters">Réinitialiser</button>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><span class="label">Nombre de tickets</span><span class="value" id="kpi-nb">—</span></div>
+        <div class="kpi"><span class="label">Temps de résolution moyen</span><span class="value" id="kpi-temps">—</span></div>
+        <div class="kpi"><span class="label">SLA respecté</span><span class="value" id="kpi-sla">—</span></div>
+        <div class="kpi"><span class="label">Satisfaction moyenne</span><span class="value" id="kpi-satisfaction">—</span></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-box">
+          <h4>Évolution mensuelle du volume de tickets</h4>
+          <div class="sub">Selon les filtres actifs</div>
+          <canvas id="chart-evolution"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4>Répartition par catégorie</h4>
+          <div class="sub">Part des tickets filtrés</div>
+          <canvas id="chart-categorie"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-grid thirds">
+        <div class="chart-box">
+          <h4>Volume par canal</h4>
+          <div class="sub">Nombre de tickets</div>
+          <canvas id="chart-canal"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4>Tickets en retard par catégorie</h4>
+          <div class="sub">Nombre de tickets au statut « En retard »</div>
+          <canvas id="chart-retard-cat"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4>Répartition par statut</h4>
+          <div class="sub">Nombre de tickets</div>
+          <canvas id="chart-statut"></canvas>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table class="data-table" id="table">
+            <thead>
+              <tr>
+                <th data-key="id">ID</th>
+                <th data-key="date">Date</th>
+                <th data-key="categorie">Catégorie</th>
+                <th data-key="priorite">Priorité</th>
+                <th data-key="canal">Canal</th>
+                <th data-key="statut">Statut</th>
+                <th data-key="tempsResolutionH">Résolution (h)</th>
+                <th data-key="satisfaction">Satisfaction</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <span id="pager-info">—</span>
+          <div class="btns">
+            <button id="pager-prev">‹</button>
+            <button id="pager-next">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-panel">
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct à partir des filtres actifs</span></div>
+        </div>
+        <div class="insight-list" id="insight-list"></div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="subsection tab-panel" id="modele-donnees" hidden>
+      <div class="section-head">
+                <h2>Un schéma en étoile classique</h2>
+        <p>Une table de faits « Tickets » reliée à trois dimensions — chaque filtre du dashboard ci-dessus correspond à une jointure sur une dimension.</p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+            <g class="schema-line">
+              <path d="M260 140 L 350 180"/>
+              <path d="M640 140 L 550 180"/>
+              <path d="M450 330 L 450 365"/>
+            </g>
+            <g class="schema-box">
+              <rect x="60" y="40" width="200" height="108" rx="10"/>
+              <text x="78" y="66" class="tbl-title">Dim_Categorie</text>
+              <text x="78" y="88" class="tbl-field pk">PK id_categorie</text>
+              <text x="78" y="106" class="tbl-field">nom_categorie</text>
+              <text x="78" y="124" class="tbl-field">equipe_responsable</text>
+            </g>
+            <g class="schema-box">
+              <rect x="640" y="40" width="200" height="108" rx="10"/>
+              <text x="658" y="66" class="tbl-title">Dim_Canal</text>
+              <text x="658" y="88" class="tbl-field pk">PK id_canal</text>
+              <text x="658" y="106" class="tbl-field">nom_canal</text>
+            </g>
+            <g class="schema-box fact">
+              <rect x="350" y="180" width="200" height="150" rx="10" stroke-width="1.6"/>
+              <text x="368" y="208" class="tbl-title">Fact_Tickets</text>
+              <text x="368" y="230" class="tbl-field pk">PK id_ticket</text>
+              <text x="368" y="248" class="tbl-field">FK id_categorie · id_canal</text>
+              <text x="368" y="266" class="tbl-field">priorite · statut · date</text>
+              <text x="368" y="284" class="tbl-field">temps_resolution_h</text>
+              <text x="368" y="302" class="tbl-field">satisfaction</text>
+            </g>
+            <g class="schema-box">
+              <rect x="350" y="365" width="200" height="55" rx="10"/>
+              <text x="368" y="398" class="tbl-title">Dim_SLA (référence)</text>
+            </g>
+            <text x="450" y="465" text-anchor="middle" class="schema-label">3 dimensions · 1 table de faits — grain : un ticket par ligne, cible SLA par priorité en référence</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection tab-panel" id="code" hidden>
+      <div class="section-head">
+                <h2>Requêtes SQL &amp; contrôle Python</h2>
+        <p>Voici quelques extraits de code utilisés pour la conception de ce projet.</p>
+      </div>
+      <div class="dash" style="padding-top:0;">
+        <div class="code-panel">
+          <div class="code-tabs">
+            <button class="active" data-tab="sql1">SQL — respect SLA par catégorie</button>
+            <button data-tab="py1">Python — corrélation retard / satisfaction</button>
+          </div>
+          <div class="code-block-group active" data-group="sql1">
+            <p class="code-caption">Question métier : <b>quelles catégories de tickets respectent le moins les délais cibles</b>, pour prioriser le renfort d'équipe ?</p>
+            <pre><code class="language-sql">SELECT
+    c.nom_categorie,
+    COUNT(*)                                                       AS nb_tickets,
+    ROUND(100.0 * SUM(CASE WHEN f.statut = 'En retard' THEN 1
+                            ELSE 0 END) / COUNT(*), 1)              AS taux_retard_pct,
+    ROUND(AVG(f.temps_resolution_h), 1)                            AS temps_moyen_h
+FROM fact_tickets f
+JOIN dim_categorie c ON c.id_categorie = f.id_categorie
+WHERE f.date >= DATEADD(month, -12, CURRENT_DATE)
+GROUP BY c.nom_categorie
+ORDER BY taux_retard_pct DESC;</code></pre>
+          </div>
+          <div class="code-block-group" data-group="py1">
+            <p class="code-caption">Vérification que les tickets en retard sont bien associés à une satisfaction plus faible — validation d'une hypothèse métier avant de la présenter en comité.</p>
+            <pre><code class="language-python">import pandas as pd
+
+df = pd.read_sql("SELECT * FROM fact_tickets WHERE statut != 'En cours'", conn)
+df["en_retard"] = df["statut"].eq("En retard")
+
+satisfaction_par_statut = df.groupby("en_retard")["satisfaction"].mean()
+correlation = df[["temps_resolution_h", "satisfaction"]].corr().iloc[0, 1]
+
+print("Satisfaction moyenne (a temps vs en retard):")
+print(satisfaction_par_statut.round(1))
+print(f"Correlation temps de resolution / satisfaction : {correlation:.2f}")</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-proj reveal">
+      <a href="rh.html">← Projet précédent : RH — Effectifs &amp; turnover</a>
+      <a href="qualite-donnees.html">Projet suivant : Qualité — Détection d'anomalies →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
+    <div class="foot-links">
+      <a href="../index.html#profil">Profil</a>
+      <a href="../index.html#experience">Expérience</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="../js/main.js?v=3"></script>
+<script src="../js/data/support-data.js?v=3"></script>
+<script src="../js/dashboards/support.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RH — Effectifs &amp; turnover — Nazim Allaoua</title>
+<meta name="description" content="Dashboard interactif de suivi RH (embauches, départs, turnover) — projet de démonstration Data Analyst.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c8cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='%230a0e17' text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <div class="container">
+    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span>Menu</span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#profil">Profil</a></li>
+      <li><a href="../index.html#experience">Expérience</a></li>
+      <li><a href="../index.html#formation">Formation</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-hero">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> RH — Effectifs &amp; turnover</div>
+    <div class="disclaimer reveal">⚠ Données 100% fictives, générées à des fins de démonstration</div>
+    <h1 class="reveal">RH — Effectifs &amp; turnover</h1>
+    <div class="skills-demo reveal">
+      <span>Filtrage multi-critères en temps réel</span><span>Agrégations dynamiques</span>
+      <span>Taux de turnover</span><span>Table triable &amp; paginée</span><span>Visualisation de données</span>
+    </div>
+    <div class="explain-grid reveal">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Chaque ligne du jeu de données (200+ mouvements fictifs) est un événement daté — embauche ou départ — avec département, poste, motif et ancienneté.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Construction d'indicateurs RH (turnover, ancienneté), requêtes SQL sur un journal d'événements, agrégations conditionnelles en Python.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <nav class="proj-tabs reveal" aria-label="Sections du projet">
+      <a href="#analyse">Analyse</a>
+      <a href="#modele-donnees">Modèle de données</a>
+      <a href="#code">Exemple de code</a>
+    </nav>
+
+    <div class="tab-panel" id="analyse">
+    <div class="dash">
+
+      <div class="filter-bar">
+        <div class="field">
+          <label for="f-departement">Département</label>
+          <select id="f-departement"><option value="">Tous les départements</option></select>
+        </div>
+        <div class="field">
+          <label for="f-type">Type de mouvement</label>
+          <select id="f-type"><option value="">Tous les types</option></select>
+        </div>
+        <div class="field">
+          <label for="f-motif">Motif de départ</label>
+          <select id="f-motif"><option value="">Tous les motifs</option></select>
+        </div>
+        <div class="field">
+          <label for="f-poste">Poste</label>
+          <input type="text" id="f-poste" placeholder="Rechercher un poste…">
+        </div>
+        <div class="field grow-0">
+          <label for="f-du">Du</label>
+          <select id="f-du"></select>
+        </div>
+        <div class="field grow-0">
+          <label for="f-au">Au</label>
+          <select id="f-au"></select>
+        </div>
+        <button class="btn btn-ghost btn-sm reset-btn" id="reset-filters">Réinitialiser</button>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><span class="label">Variation effectif nette</span><span class="value" id="kpi-variation">—</span></div>
+        <div class="kpi"><span class="label">Nombre de mouvements</span><span class="value" id="kpi-nb">—</span></div>
+        <div class="kpi"><span class="label">Taux de turnover</span><span class="value" id="kpi-turnover">—</span></div>
+        <div class="kpi"><span class="label">Ancienneté moyenne (départs)</span><span class="value" id="kpi-anciennete">—</span></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-box">
+          <h4>Évolution mensuelle — embauches vs départs</h4>
+          <div class="sub">Selon les filtres actifs</div>
+          <canvas id="chart-evolution"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4>Répartition des départs par motif</h4>
+          <div class="sub">Part des départs filtrés</div>
+          <canvas id="chart-motif"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-grid thirds">
+        <div class="chart-box">
+          <h4>Départements les plus touchés</h4>
+          <div class="sub">Nombre de départs</div>
+          <canvas id="chart-departements"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4>Ancienneté moyenne au départ</h4>
+          <div class="sub">Par département (années)</div>
+          <canvas id="chart-anciennete"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4>Embauches / départs</h4>
+          <div class="sub">Sur la sélection</div>
+          <canvas id="chart-type"></canvas>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table class="data-table" id="table">
+            <thead>
+              <tr>
+                <th data-key="id">ID</th>
+                <th data-key="date">Date</th>
+                <th data-key="departement">Département</th>
+                <th data-key="poste">Poste</th>
+                <th data-key="type">Type</th>
+                <th data-key="motif">Motif</th>
+                <th data-key="anciennete">Ancienneté (ans)</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <span id="pager-info">—</span>
+          <div class="btns">
+            <button id="pager-prev">‹</button>
+            <button id="pager-next">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-panel">
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct à partir des filtres actifs</span></div>
+        </div>
+        <div class="insight-list" id="insight-list"></div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="subsection tab-panel" id="modele-donnees" hidden>
+      <div class="section-head">
+                <h2>Un journal de mouvements, quatre dimensions</h2>
+        <p>Chaque embauche ou départ est enregistré comme un événement daté, relié aux dimensions Département, Poste et Motif — le format le plus courant pour du reporting RH sur un Data Warehouse.</p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+            <g class="schema-line">
+              <path d="M260 155 L 350 195"/>
+              <path d="M640 155 L 550 195"/>
+              <path d="M260 320 L 350 280"/>
+              <path d="M640 320 L 550 280"/>
+            </g>
+            <g class="schema-box">
+              <rect x="60" y="45" width="200" height="118" rx="10"/>
+              <text x="78" y="71" class="tbl-title">Dim_Departement</text>
+              <text x="78" y="93" class="tbl-field pk">PK id_departement</text>
+              <text x="78" y="111" class="tbl-field">nom_departement</text>
+              <text x="78" y="129" class="tbl-field">responsable</text>
+            </g>
+            <g class="schema-box">
+              <rect x="640" y="45" width="200" height="118" rx="10"/>
+              <text x="658" y="71" class="tbl-title">Dim_Poste</text>
+              <text x="658" y="93" class="tbl-field pk">PK id_poste</text>
+              <text x="658" y="111" class="tbl-field">intitule_poste</text>
+              <text x="658" y="129" class="tbl-field">niveau</text>
+            </g>
+            <g class="schema-box fact">
+              <rect x="350" y="195" width="200" height="150" rx="10" stroke-width="1.6"/>
+              <text x="368" y="223" class="tbl-title">Fact_Mouvements</text>
+              <text x="368" y="245" class="tbl-field pk">PK id_mouvement</text>
+              <text x="368" y="263" class="tbl-field">FK id_departement</text>
+              <text x="368" y="281" class="tbl-field">FK id_poste · date</text>
+              <text x="368" y="299" class="tbl-field">type · FK id_motif</text>
+              <text x="368" y="317" class="tbl-field">anciennete_ans</text>
+            </g>
+            <g class="schema-box">
+              <rect x="60" y="320" width="200" height="118" rx="10"/>
+              <text x="78" y="346" class="tbl-title">Dim_Motif</text>
+              <text x="78" y="368" class="tbl-field pk">PK id_motif</text>
+              <text x="78" y="386" class="tbl-field">libelle_motif</text>
+              <text x="78" y="404" class="tbl-field">categorie_motif</text>
+            </g>
+            <g class="schema-box">
+              <rect x="640" y="320" width="200" height="118" rx="10"/>
+              <text x="658" y="346" class="tbl-title">Dim_Date</text>
+              <text x="658" y="368" class="tbl-field pk">PK date</text>
+              <text x="658" y="386" class="tbl-field">mois · trimestre</text>
+              <text x="658" y="404" class="tbl-field">annee</text>
+            </g>
+            <text x="450" y="470" text-anchor="middle" class="schema-label">4 dimensions · 1 table de faits — grain : un événement (embauche ou départ) par ligne</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection tab-panel" id="code" hidden>
+      <div class="section-head">
+                <h2>Requêtes SQL &amp; calcul Python</h2>
+        <p>Voici quelques extraits de code utilisés pour la conception de ce projet.</p>
+      </div>
+      <div class="dash" style="padding-top:0;">
+        <div class="code-panel">
+          <div class="code-tabs">
+            <button class="active" data-tab="sql1">SQL — turnover glissant par département</button>
+            <button data-tab="py1">Python — départements à surveiller</button>
+          </div>
+          <div class="code-block-group active" data-group="sql1">
+            <p class="code-caption">Question métier : <b>quel est le taux de turnover glissant sur 12 mois par département</b>, pour prioriser les actions RH ?</p>
+            <pre><code class="language-sql">WITH departs_12m AS (
+    SELECT
+        d.nom_departement,
+        COUNT(*) AS nb_departs
+    FROM fact_mouvements f
+    JOIN dim_departement d ON d.id_departement = f.id_departement
+    WHERE f.type = 'Depart'
+      AND f.date >= DATEADD(month, -12, CURRENT_DATE)
+    GROUP BY d.nom_departement
+),
+effectif AS (
+    SELECT nom_departement, effectif_moyen_12m
+    FROM dim_departement_effectif
+)
+SELECT
+    dp.nom_departement,
+    dp.nb_departs,
+    e.effectif_moyen_12m,
+    ROUND(100.0 * dp.nb_departs / NULLIF(e.effectif_moyen_12m, 0), 1) AS taux_turnover_pct
+FROM departs_12m dp
+JOIN effectif e ON e.nom_departement = dp.nom_departement
+ORDER BY taux_turnover_pct DESC;</code></pre>
+          </div>
+          <div class="code-block-group" data-group="py1">
+            <p class="code-caption">Identification des départements dont le turnover dépasse significativement la moyenne de l'entreprise — même logique que les insights affichés ci-dessus.</p>
+            <pre><code class="language-python">import pandas as pd
+
+df = pd.read_sql("SELECT * FROM fact_mouvements", conn)
+departs = df[df["type"] == "Depart"]
+
+turnover_dept = (
+    departs.groupby("departement")
+    .size()
+    .div(EFFECTIF_REFERENCE)
+    .mul(100)
+    .rename("taux_turnover_pct")
+    .sort_values(ascending=False)
+)
+
+moyenne = turnover_dept.mean()
+a_surveiller = turnover_dept[turnover_dept > moyenne * 1.3]
+
+print(f"Turnover moyen entreprise : {moyenne:.1f}%")
+print("Departements a surveiller :", a_surveiller.round(1).to_dict())</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-proj reveal">
+      <a href="ventes.html">← Projet précédent : Ventes — Retail &amp; e-commerce</a>
+      <a href="support.html">Projet suivant : Support — Tickets &amp; SLA →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
+    <div class="foot-links">
+      <a href="../index.html#profil">Profil</a>
+      <a href="../index.html#experience">Expérience</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="../js/main.js?v=3"></script>
+<script src="../js/data/rh-data.js?v=3"></script>
+<script src="../js/dashboards/rh.js?v=3"></script>
+</body>
+</html>

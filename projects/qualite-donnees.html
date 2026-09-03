@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qualité — Détection d'anomalies — Nazim Allaoua</title>
+<meta name="description" content="Détection d'anomalies interactive (Z-score / IQR) sur des transactions — projet de démonstration Data Analyst.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c8cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='%230a0e17' text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <div class="container">
+    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span>Menu</span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#profil">Profil</a></li>
+      <li><a href="../index.html#experience">Expérience</a></li>
+      <li><a href="../index.html#formation">Formation</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-hero">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> Qualité — Détection d'anomalies</div>
+    <div class="disclaimer reveal">⚠ Données 100% fictives, générées à des fins de démonstration</div>
+    <h1 class="reveal">Qualité — Détection d'anomalies</h1>
+    <div class="skills-demo reveal">
+      <span>Score Z</span><span>Méthode IQR</span><span>Seuil ajustable en temps réel</span>
+      <span>Scatter plot</span><span>Contrôle qualité des données</span>
+    </div>
+    <div class="explain-grid reveal">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Le score Z mesure l'écart à la moyenne en écarts-types sur montant et délai, combinés en une distance ; l'IQR signale tout point hors de Q1 − k×IQR ou Q3 + k×IQR. Les deux méthodes sont recalculées entièrement côté client.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Statistiques appliquées au contrôle qualité, traduction d'une logique de détection en SQL et Python, arbitrage précision / rappel selon le seuil.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <nav class="proj-tabs reveal" aria-label="Sections du projet">
+      <a href="#analyse">Analyse</a>
+      <a href="#modele-donnees">Pipeline de traitement</a>
+      <a href="#code">Exemple de code</a>
+    </nav>
+
+    <div class="tab-panel" id="analyse">
+    <div class="dash">
+
+      <div class="filter-bar">
+        <div class="field grow-0">
+          <label>Méthode de détection</label>
+          <div class="method-toggle">
+            <button id="btn-zscore" class="active">Score Z</button>
+            <button id="btn-iqr">IQR</button>
+          </div>
+        </div>
+        <div class="field range-field" style="min-width:260px;">
+          <label for="f-threshold">Seuil de sensibilité — <span class="range-value" id="threshold-value">2.5</span></label>
+          <input type="range" id="f-threshold" min="1.2" max="4" step="0.1" value="2.5">
+        </div>
+        <button class="btn btn-ghost btn-sm reset-btn" id="reset-filters">Réinitialiser</button>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><span class="label">Transactions analysées</span><span class="value" id="kpi-total">—</span></div>
+        <div class="kpi"><span class="label">Anomalies détectées</span><span class="value" id="kpi-anom">—</span></div>
+        <div class="kpi"><span class="label">Taux d'anomalies</span><span class="value" id="kpi-rate">—</span></div>
+        <div class="kpi"><span class="label">Méthode active</span><span class="value" id="kpi-method">Score Z</span></div>
+      </div>
+
+      <div class="chart-box" style="margin-bottom:20px;">
+        <h4>Montant vs délai de traitement</h4>
+        <div class="sub">Chaque point est une transaction — en rouge, les anomalies détectées selon le seuil actuel</div>
+        <canvas id="chart-scatter" style="max-height:380px;"></canvas>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table class="data-table" id="table">
+            <thead>
+              <tr>
+                <th data-key="id">ID</th>
+                <th data-key="date">Date</th>
+                <th data-key="fournisseur">Fournisseur</th>
+                <th data-key="montant">Montant</th>
+                <th data-key="delai">Délai (j)</th>
+                <th data-key="score">Score</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <span id="pager-info">—</span>
+          <div class="btns">
+            <button id="pager-prev">‹</button>
+            <button id="pager-next">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-panel">
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct selon la méthode et le seuil actifs, avec une analyse de sensibilité du seuil</span></div>
+        </div>
+        <div class="insight-list" id="insight-list"></div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="subsection tab-panel" id="modele-donnees" hidden>
+      <div class="section-head">
+                <h2>De la transaction brute à l'anomalie signalée</h2>
+        <p>Contrairement aux deux autres projets, il n'y a pas ici de schéma en étoile : les transactions forment une table plate, transformée par un pipeline statistique en 3 étapes.</p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+            <g class="schema-line">
+              <path d="M240 110 L 300 110" marker-end="url(#arrow)"/>
+              <path d="M540 110 L 600 110" marker-end="url(#arrow)"/>
+            </g>
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 z" fill="var(--text-faint)"/>
+              </marker>
+            </defs>
+            <g class="schema-box">
+              <rect x="40" y="50" width="200" height="120" rx="10"/>
+              <text x="58" y="80" class="tbl-title">Transactions</text>
+              <text x="58" y="102" class="tbl-field pk">PK id</text>
+              <text x="58" y="120" class="tbl-field">fournisseur · date</text>
+              <text x="58" y="138" class="tbl-field">montant · delai</text>
+            </g>
+            <g class="schema-box">
+              <rect x="300" y="50" width="240" height="120" rx="10"/>
+              <text x="318" y="80" class="tbl-title">Statistiques population</text>
+              <text x="318" y="102" class="tbl-field">moyenne, écart-type</text>
+              <text x="318" y="120" class="tbl-field">Q1, Q3, IQR</text>
+              <text x="318" y="138" class="tbl-field">(par dimension)</text>
+            </g>
+            <g class="schema-box fact">
+              <rect x="600" y="50" width="260" height="120" rx="10" stroke-width="1.6"/>
+              <text x="618" y="80" class="tbl-title">Classification</text>
+              <text x="618" y="102" class="tbl-field">score Z ou distance IQR</text>
+              <text x="618" y="120" class="tbl-field">vs seuil ajustable</text>
+              <text x="618" y="138" class="tbl-field pk">→ normal / anomalie</text>
+            </g>
+            <text x="450" y="200" text-anchor="middle" class="schema-label">Pipeline recalculé entièrement côté client à chaque changement de seuil — aucun aller-retour serveur</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection tab-panel" id="code" hidden>
+      <div class="section-head">
+                <h2>Requêtes SQL &amp; détection Python</h2>
+        <p>Voici quelques extraits de code utilisés pour la conception de ce projet.</p>
+      </div>
+      <div class="dash" style="padding-top:0;">
+        <div class="code-panel">
+          <div class="code-tabs">
+            <button class="active" data-tab="sql1">SQL — score Z par fenêtrage</button>
+            <button data-tab="py1">Python — Z-score &amp; IQR</button>
+          </div>
+          <div class="code-block-group active" data-group="sql1">
+            <p class="code-caption">Détection directement en SQL, sans étape intermédiaire, via une fenêtre statistique sur l'ensemble de la table.</p>
+            <pre><code class="language-sql">WITH stats AS (
+    SELECT
+        AVG(montant)    AS moy_montant, STDDEV(montant) AS ect_montant,
+        AVG(delai)      AS moy_delai,   STDDEV(delai)   AS ect_delai
+    FROM transactions
+)
+SELECT
+    t.id, t.date, t.fournisseur, t.montant, t.delai,
+    ROUND(SQRT(
+        POWER((t.montant - s.moy_montant) / NULLIF(s.ect_montant, 0), 2) +
+        POWER((t.delai   - s.moy_delai)   / NULLIF(s.ect_delai, 0),   2)
+    ), 2) AS score_z
+FROM transactions t
+CROSS JOIN stats s
+QUALIFY score_z > 2.5   -- ou sous-requete + WHERE sur les moteurs sans QUALIFY
+ORDER BY score_z DESC;</code></pre>
+          </div>
+          <div class="code-block-group" data-group="py1">
+            <p class="code-caption">Les deux méthodes disponibles dans le sélecteur ci-dessus, implémentées avec pandas / numpy.</p>
+            <pre><code class="language-python">import numpy as np
+
+def detecter_anomalies_zscore(df, seuil=2.5):
+    z_montant = (df["montant"] - df["montant"].mean()) / df["montant"].std()
+    z_delai   = (df["delai"]   - df["delai"].mean())   / df["delai"].std()
+    df["score_z"] = np.sqrt(z_montant**2 + z_delai**2)
+    return df[df["score_z"] > seuil].sort_values("score_z", ascending=False)
+
+def detecter_anomalies_iqr(df, k=1.5):
+    bornes = {}
+    for col in ["montant", "delai"]:
+        q1, q3 = df[col].quantile([0.25, 0.75])
+        iqr = q3 - q1
+        bornes[col] = (q1 - k * iqr, q3 + k * iqr)
+    masque = (~df["montant"].between(*bornes["montant"])
+              | ~df["delai"].between(*bornes["delai"]))
+    return df[masque]
+
+anomalies = detecter_anomalies_zscore(transactions, seuil=2.5)
+print(f"{len(anomalies)} anomalies sur {len(transactions)} transactions "
+      f"({len(anomalies) / len(transactions):.1%})")</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-proj reveal">
+      <a href="support.html">← Projet précédent : Support — Tickets &amp; SLA</a>
+      <a href="ia.html">Projet suivant : IA — Agents LLM &amp; métadonnées →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
+    <div class="foot-links">
+      <a href="../index.html#profil">Profil</a>
+      <a href="../index.html#experience">Expérience</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="../js/main.js?v=3"></script>
+<script src="../js/data/qualite-data.js?v=3"></script>
+<script src="../js/dashboards/qualite.js?v=3"></script>
+</body>
+</html>

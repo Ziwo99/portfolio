@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ventes — Retail &amp; e-commerce — Nazim Allaoua</title>
+<meta name="description" content="Dashboard interactif de suivi des ventes multi-canal (boutiques &amp; e-commerce) — projet de démonstration Data Analyst.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c8cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='%230a0e17' text-anchor='middle'%3ENA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+<style>
+  .centre-toggles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .centre-toggles button {
+    font-size: 13px; padding: 7px 13px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-faint); cursor: pointer; font-family: inherit; transition: all .15s ease;
+  }
+  .centre-toggles button:hover { border-color: var(--border-strong); color: var(--text-dim); }
+  .centre-toggles button.active { background: var(--surface-strong); color: var(--text); border-color: var(--border-strong); font-weight: 600; box-shadow: inset 0 0 0 1px rgba(34,211,238,.35); }
+  .heatmap { display: grid; grid-template-columns: 60px repeat(11, 1fr); gap: 4px; font-size: 11px; }
+  .heatmap .hcell { aspect-ratio: 1.15; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.85); }
+  .heatmap .hlabel { display: flex; align-items: center; color: var(--text-faint); font-size: 11px; }
+  .heatmap .hhead { text-align: center; color: var(--text-faint); font-size: 10.5px; padding-bottom: 4px; }
+  @media (max-width: 640px) {
+    .heatmap { grid-template-columns: 46px repeat(11, 34px); overflow-x: auto; padding-bottom: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <div class="container">
+    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span>Menu</span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html#profil">Profil</a></li>
+      <li><a href="../index.html#experience">Expérience</a></li>
+      <li><a href="../index.html#formation">Formation</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
+    </div>
+  </div>
+</nav>
+
+<header class="proj-hero">
+  <div class="container">
+    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> Ventes — Retail &amp; e-commerce</div>
+    <div class="disclaimer reveal">⚠ Données 100% fictives, générées à des fins de démonstration</div>
+    <h1 class="reveal">Ventes — Retail &amp; e-commerce</h1>
+    <div class="skills-demo reveal">
+      <span>Comparaison multi-canal</span><span>Séries temporelles</span>
+      <span>Heatmap horaire des commandes</span><span>Indicateurs de performance</span>
+    </div>
+    <div class="explain-grid reveal">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>24 mois de ventes sur 9 points de vente et 2 canaux, agrégés différemment selon la métrique : somme pour les volumes, moyenne pour les taux. La heatmap repère les pics d'activité par créneau horaire.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Agrégations conditionnelles selon le type de métrique, requêtes SQL avec fonctions de fenêtrage, projection de tendance en Python, lecture de la saisonnalité.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="tight">
+  <div class="container">
+    <nav class="proj-tabs reveal" aria-label="Sections du projet">
+      <a href="#analyse">Analyse</a>
+      <a href="#modele-donnees">Modèle de données</a>
+      <a href="#code">Exemple de code</a>
+    </nav>
+
+    <div class="tab-panel" id="analyse">
+    <div class="dash">
+
+      <div class="filter-bar">
+        <div class="field">
+          <label for="f-metric">Métrique analysée</label>
+          <select id="f-metric">
+            <option value="commandes">Commandes</option>
+            <option value="chiffreAffaires">Chiffre d'affaires (CHF)</option>
+            <option value="panierMoyen">Panier moyen (CHF)</option>
+            <option value="tauxRetour">Taux de retour (%)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-type">Canal de vente</label>
+          <select id="f-type">
+            <option value="">Tous canaux</option>
+            <option value="Boutique">Boutique physique</option>
+            <option value="En ligne">En ligne</option>
+          </select>
+        </div>
+        <div class="field grow-0">
+          <label for="f-du">Du</label>
+          <select id="f-du"></select>
+        </div>
+        <div class="field grow-0">
+          <label for="f-au">Au</label>
+          <select id="f-au"></select>
+        </div>
+        <button class="btn btn-ghost btn-sm reset-btn" id="reset-filters">Réinitialiser</button>
+      </div>
+
+      <div class="centre-toggles" id="centre-toggles"></div>
+
+      <div class="kpi-row">
+        <div class="kpi"><span class="label">Commandes</span><span class="value" id="kpi-commandes">—</span></div>
+        <div class="kpi"><span class="label">Chiffre d'affaires</span><span class="value" id="kpi-ca">—</span></div>
+        <div class="kpi"><span class="label">Panier moyen</span><span class="value" id="kpi-panier">—</span></div>
+        <div class="kpi"><span class="label">Taux de retour</span><span class="value" id="kpi-retour">—</span></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-box">
+          <h4 id="chart-evolution-title">Évolution mensuelle</h4>
+          <div class="sub">Points de vente sélectionnés, cumulés / moyennés selon la métrique</div>
+          <canvas id="chart-evolution"></canvas>
+        </div>
+        <div class="chart-box">
+          <h4 id="chart-compare-title">Comparaison par point de vente</h4>
+          <div class="sub">Sur la période sélectionnée</div>
+          <canvas id="chart-compare"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <h4>Répartition des commandes — jour &amp; heure</h4>
+        <div class="sub">Intensité moyenne des commandes, points de vente sélectionnés (8h–18h, lundi–samedi)</div>
+        <div class="heatmap" id="heatmap" style="margin-top:14px;"></div>
+      </div>
+
+      <div class="insight-panel">
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct, incluant une projection à court terme par régression linéaire</span></div>
+        </div>
+        <div class="insight-list" id="insight-list"></div>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="subsection tab-panel" id="modele-donnees" hidden>
+      <div class="section-head">
+                <h2>Deux tables de faits, une dimension commune</h2>
+        <p>Les ventes mensuelles et la répartition horaire des commandes partagent la même dimension « Point de vente », ce qui permet de croiser vue macro (tendance) et vue micro (pics d'activité) sans dupliquer le référentiel.</p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+        <div class="diagram-wrap">
+          <svg viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+            <g class="schema-line">
+              <path d="M450 140 L 450 190"/>
+              <path d="M450 190 L 260 240"/>
+              <path d="M450 190 L 640 240"/>
+            </g>
+            <g class="schema-box">
+              <rect x="350" y="50" width="200" height="90" rx="10"/>
+              <text x="368" y="76" class="tbl-title">Dim_PointDeVente</text>
+              <text x="368" y="98" class="tbl-field pk">PK id_point_vente</text>
+              <text x="368" y="116" class="tbl-field">nom · canal</text>
+            </g>
+            <g class="schema-box fact">
+              <rect x="150" y="200" width="220" height="130" rx="10" stroke-width="1.6"/>
+              <text x="168" y="228" class="tbl-title">Fact_Ventes (mensuelle)</text>
+              <text x="168" y="250" class="tbl-field pk">PK id_vente</text>
+              <text x="168" y="268" class="tbl-field">FK id_point_vente · mois</text>
+              <text x="168" y="286" class="tbl-field">commandes · chiffre_affaires</text>
+              <text x="168" y="304" class="tbl-field">panier_moyen · taux_retour</text>
+            </g>
+            <g class="schema-box fact">
+              <rect x="530" y="200" width="220" height="130" rx="10" stroke-width="1.6"/>
+              <text x="548" y="228" class="tbl-title">Fact_Heatmap (horaire)</text>
+              <text x="548" y="250" class="tbl-field pk">PK id_creneau</text>
+              <text x="548" y="268" class="tbl-field">FK id_point_vente</text>
+              <text x="548" y="286" class="tbl-field">jour_semaine · heure</text>
+              <text x="548" y="304" class="tbl-field">commandes_moyennes</text>
+            </g>
+            <text x="450" y="360" text-anchor="middle" class="schema-label">Grains différents (mois vs créneau horaire) reliés par Dim_PointDeVente — modèle en constellation</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection tab-panel" id="code" hidden>
+      <div class="section-head">
+                <h2>Requêtes SQL &amp; projection Python</h2>
+        <p>Voici quelques extraits de code utilisés pour la conception de ce projet.</p>
+      </div>
+      <div class="dash" style="padding-top:0;">
+        <div class="code-panel">
+          <div class="code-tabs">
+            <button class="active" data-tab="sql1">SQL — croissance par point de vente</button>
+            <button data-tab="py1">Python — projection à 2 mois</button>
+          </div>
+          <div class="code-block-group active" data-group="sql1">
+            <p class="code-caption">Question métier : <b>quels points de vente sont en croissance ou en décroissance</b> sur la période, pour prioriser les actions commerciales ?</p>
+            <pre><code class="language-sql">WITH ventes_mensuelles AS (
+    SELECT point_vente_id, DATE_TRUNC('month', mois) AS mois,
+           SUM(commandes) AS commandes
+    FROM fact_ventes
+    GROUP BY 1, 2
+),
+bornes AS (
+    SELECT
+        point_vente_id,
+        FIRST_VALUE(commandes) OVER (
+            PARTITION BY point_vente_id ORDER BY mois
+            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS debut,
+        LAST_VALUE(commandes) OVER (
+            PARTITION BY point_vente_id ORDER BY mois
+            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS fin
+    FROM ventes_mensuelles
+)
+SELECT DISTINCT
+    p.nom, debut, fin,
+    ROUND(100.0 * (fin - debut) / NULLIF(debut, 0), 1) AS croissance_pct
+FROM bornes b
+JOIN dim_point_vente p ON p.id_point_vente = b.point_vente_id
+ORDER BY croissance_pct DESC;</code></pre>
+          </div>
+          <div class="code-block-group" data-group="py1">
+            <p class="code-caption">Projection simple de la tendance (régression linéaire) — la même méthode alimente la ligne en pointillés du graphique d'évolution ci-dessus.</p>
+            <pre><code class="language-python">import numpy as np
+import pandas as pd
+
+serie = df.groupby("mois")["commandes"].sum().reset_index()
+serie["t"] = np.arange(len(serie))
+
+# Regression lineaire simple pour projeter les 2 prochains mois
+a, b = np.polyfit(serie["t"], serie["commandes"], 1)
+prochains_t = np.arange(len(serie), len(serie) + 2)
+projection = a * prochains_t + b
+
+print(f"Tendance : {a:+.0f} commandes / mois")
+print("Projection a 2 mois :", projection.round(0).tolist())</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="next-proj reveal">
+      <a href="achats.html">← Projet précédent : Achats — Pilotage fournisseurs</a>
+      <a href="rh.html">Projet suivant : RH — Effectifs &amp; turnover →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
+    <div class="foot-links">
+      <a href="../index.html#profil">Profil</a>
+      <a href="../index.html#experience">Expérience</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="../js/main.js?v=3"></script>
+<script src="../js/data/ventes-data.js?v=3"></script>
+<script src="../js/dashboards/ventes.js?v=3"></script>
+</body>
+</html>
