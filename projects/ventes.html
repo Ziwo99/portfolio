@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=3">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+<link rel="stylesheet" href="../css/style.css?v=8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 <style>
   .centre-toggles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
   .centre-toggles button {
@@ -27,56 +27,23 @@
     .heatmap { grid-template-columns: 46px repeat(11, 34px); overflow-x: auto; padding-bottom: 6px; }
   }
 </style>
+<link rel="stylesheet" href="../css/projects.css?v=8">
 </head>
-<body>
+<body class="project-page">
 
-<nav class="nav scrolled">
-  <div class="container">
-    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
-    <button class="nav-toggle" aria-label="Menu">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      <span>Menu</span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="../index.html#profil">Profil</a></li>
-      <li><a href="../index.html#experience">Expérience</a></li>
-      <li><a href="../index.html#formation">Formation</a></li>
-      <li><a href="../index.html#competences">Compétences</a></li>
-      <li><a href="../index.html#projets">Projets</a></li>
-      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
-    </div>
-  </div>
-</nav>
+<nav class="nav"><div class="container">
+<a href="../index.html#top" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+<button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-menu"><span>Menu</span></button>
+<ul class="nav-links" id="main-menu"><li><a href="../index.html#projets"><span data-en="Projects">Projets</span></a></li><li><a href="../index.html#experience"><span data-en="Experience">Expérience</span></a></li><li><a href="../index.html#formation"><span data-en="Education">Formation</span></a></li><li><a href="../index.html#competences"><span data-en="Skills">Compétences</span></a></li><li><a href="../index.html#contact">Contact</a></li></ul>
+<div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
+</div></nav>
 
-<header class="proj-hero">
-  <div class="container">
-    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> Ventes — Retail &amp; e-commerce</div>
-    <div class="disclaimer reveal">⚠ Données 100% fictives, générées à des fins de démonstration</div>
-    <h1 class="reveal">Ventes — Retail &amp; e-commerce</h1>
-    <div class="skills-demo reveal">
-      <span>Comparaison multi-canal</span><span>Séries temporelles</span>
-      <span>Heatmap horaire des commandes</span><span>Indicateurs de performance</span>
-    </div>
-    <div class="explain-grid reveal">
-      <div class="card">
-        <h3>Approche</h3>
-        <p>24 mois de ventes sur 9 points de vente et 2 canaux, agrégés différemment selon la métrique : somme pour les volumes, moyenne pour les taux. La heatmap repère les pics d'activité par créneau horaire.</p>
-      </div>
-      <div class="card">
-        <h3>Ce que ce projet démontre</h3>
-        <p>Agrégations conditionnelles selon le type de métrique, requêtes SQL avec fonctions de fenêtrage, projection de tendance en Python, lecture de la saisonnalité.</p>
-      </div>
-    </div>
-  </div>
-</header>
+<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="Sales performance">Performance commerciale</span></h1><p class="project-purpose"><span data-en="Compare channels and explore sales trends.">Comparer les canaux et explorer les tendances de vente.</span></p></div><span class="demo-note"><span data-en="Synthetic data">Données fictives</span></span></div></div></header>
 
 <section class="tight">
   <div class="container">
     <nav class="proj-tabs reveal" aria-label="Sections du projet">
-      <a href="#analyse">Analyse</a>
+      <a href="#analyse"><span data-en="Interactive demo">Démo interactive</span></a>
       <a href="#modele-donnees">Modèle de données</a>
       <a href="#code">Exemple de code</a>
     </nav>
@@ -125,23 +92,23 @@
       <div class="chart-grid">
         <div class="chart-box">
           <h4 id="chart-evolution-title">Évolution mensuelle</h4>
-          <div class="sub">Points de vente sélectionnés, cumulés / moyennés selon la métrique</div>
+
           <canvas id="chart-evolution"></canvas>
         </div>
         <div class="chart-box">
           <h4 id="chart-compare-title">Comparaison par point de vente</h4>
-          <div class="sub">Sur la période sélectionnée</div>
+
           <canvas id="chart-compare"></canvas>
         </div>
       </div>
 
       <div class="chart-box">
         <h4>Répartition des commandes — jour &amp; heure</h4>
-        <div class="sub">Intensité moyenne des commandes, points de vente sélectionnés (8h–18h, lundi–samedi)</div>
+
         <div class="heatmap" id="heatmap" style="margin-top:14px;"></div>
       </div>
 
-      <div class="insight-panel">
+      <details class="dashboard-detail"><summary><span data-en="Read insights">Lire les observations</span></summary><div class="insight-panel">
         <div class="ip-head">
           <div class="ip-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
@@ -149,7 +116,7 @@
           <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct, incluant une projection à court terme par régression linéaire</span></div>
         </div>
         <div class="insight-list" id="insight-list"></div>
-      </div>
+      </div></details>
 
     </div>
     </div>
@@ -252,7 +219,17 @@ print("Projection a 2 mois :", projection.round(0).tolist())</code></pre>
       </div>
     </div>
 
-    <div class="next-proj reveal">
+    <details class="project-details"><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>24 mois de ventes sur 9 points de vente et 2 canaux, agrégés différemment selon la métrique : somme pour les volumes, moyenne pour les taux. La heatmap repère les pics d'activité par créneau horaire.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Agrégations conditionnelles selon le type de métrique, requêtes SQL avec fonctions de fenêtrage, projection de tendance en Python, lecture de la saisonnalité.</p>
+      </div>
+    </div></details>
+<div class="next-proj reveal">
       <a href="achats.html">← Projet précédent : Achats — Pilotage fournisseurs</a>
       <a href="rh.html">Projet suivant : RH — Effectifs &amp; turnover →</a>
     </div>
@@ -262,21 +239,15 @@ print("Projection a 2 mois :", projection.round(0).tolist())</code></pre>
 <footer>
   <div class="container">
     <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
-    <div class="foot-links">
-      <a href="../index.html#profil">Profil</a>
-      <a href="../index.html#experience">Expérience</a>
-      <a href="../index.html#formation">Formation</a>
-      <a href="../index.html#competences">Compétences</a>
-      <a href="../index.html#projets">Projets</a>
-      <a href="../index.html#contact">Contact</a>
-    </div>
+    <div class="foot-links"><a href="../index.html#projets">Projets</a><a href="../index.html#experience">Expérience</a><a href="../index.html#formation">Formation</a><a href="../index.html#contact">Contact</a>    </div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="../js/main.js?v=3"></script>
-<script src="../js/data/ventes-data.js?v=3"></script>
-<script src="../js/dashboards/ventes.js?v=3"></script>
+<script src="../js/translations.js?v=8"></script><script src="../js/i18n.js?v=8"></script>
+<script src="../js/main.js?v=8"></script>
+<script src="../js/data/ventes-data.js?v=8"></script>
+<script src="../js/dashboards/ventes.js?v=8"></script>
 </body>
 </html>

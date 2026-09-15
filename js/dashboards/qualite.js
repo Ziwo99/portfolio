@@ -173,5 +173,6 @@
     render();
   }));
 
+  document.addEventListener("languagechange", render);
   render();
 })();

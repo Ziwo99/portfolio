@@ -16,8 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const setOpen = (isOpen) => {
       links.classList.toggle("open", isOpen);
       toggle.classList.toggle("open", isOpen);
-      if (toggleLabel) toggleLabel.textContent = isOpen ? "Fermer" : "Menu";
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      if (toggleLabel) toggleLabel.textContent = isOpen ? (window.portfolioLanguage === "en" ? "Close" : "Fermer") : "Menu";
     };
+    document.addEventListener("languagechange", () => setOpen(links.classList.contains("open")));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { setOpen(false); toggle.focus(); } });
     toggle.addEventListener("click", () => setOpen(!links.classList.contains("open")));
     links.querySelectorAll("a").forEach((a) =>
       a.addEventListener("click", () => setOpen(false))
@@ -158,6 +161,17 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("load", syncHeroHeight);
   }
 
+  // Resize charts when their optional analysis panel becomes visible.
+  document.querySelectorAll("details.dashboard-detail").forEach(detail => {
+    detail.addEventListener("toggle", () => {
+      if (detail.open && window.Chart) requestAnimationFrame(() => {
+        Object.values(Chart.instances).forEach(chart => {
+          if (detail.contains(chart.canvas)) chart.resize();
+        });
+      });
+    });
+  });
+
   // Onglets de navigation interne des pages projet (Analyse / Modèle de données / Exemple de code).
   // Pas de scroll : un clic bascule quel panneau est affiché, la barre reste fixée pendant le scroll.
   document.querySelectorAll(".proj-tabs").forEach((nav) => {
@@ -182,26 +196,45 @@ document.addEventListener("DOMContentLoaded", () => {
 // Helpers partagés pour les dashboards
 // ---------------------------------------------------------------
 const fmtCHF = (n) =>
-  new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
-const fmtNum = (n, d = 0) => new Intl.NumberFormat("fr-CH", { maximumFractionDigits: d }).format(n);
+  new Intl.NumberFormat(window.portfolioLocale(), { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+const fmtNum = (n, d = 0) => new Intl.NumberFormat(window.portfolioLocale(), { maximumFractionDigits: d }).format(n);
 const fmtDate = (iso) => {
   const d = new Date(iso);
-  return d.toLocaleDateString("fr-CH", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return d.toLocaleDateString(window.portfolioLocale(), { day: "2-digit", month: "2-digit", year: "numeric" });
 };
 
 const CHART_COLORS = {
-  accent: "#7c8cff",
-  accent2: "#22d3ee",
-  accent3: "#c084fc",
-  good: "#34d399",
-  warn: "#fbbf24",
-  bad: "#f87171",
-  grid: "rgba(255,255,255,.06)",
-  text: "#a4acc2",
+  accent: "#315bd6",
+  accent2: "#076b88",
+  accent3: "#7346b8",
+  good: "#167347",
+  warn: "#936000",
+  bad: "#c53636",
+  grid: "#e1e6ee",
+  text: "#4b5b71",
 };
 
 function chartDefaults() {
   if (typeof Chart === "undefined") return;
+  if (!Chart.registry.plugins.get('portfolio-language')) Chart.register({
+    id: 'portfolio-language',
+    beforeUpdate(chart) {
+      const tr = window.translatePortfolio;
+      if (!tr) return;
+      const records = chart.$languageRecords || (chart.$languageRecords = new Map());
+      const translate = (key, value) => {
+        let record = records.get(key);
+        if (!record || record.rendered !== value) record = { source: value };
+        record.rendered = tr(record.source); records.set(key, record);
+        return record.rendered;
+      };
+      chart.data.labels = chart.data.labels?.map((label, i) => translate('label' + i, label));
+      chart.data.datasets.forEach((dataset, i) => { if (dataset.label) dataset.label = translate('dataset' + i, dataset.label); });
+      Object.entries(chart.options.scales || {}).forEach(([key, scale]) => {
+        if (scale.title?.text) scale.title.text = translate('axis' + key, scale.title.text);
+      });
+    }
+  });
   Chart.defaults.font.family = "Inter, sans-serif";
   Chart.defaults.color = CHART_COLORS.text;
   Chart.defaults.font.size = 12;

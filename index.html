@@ -9,130 +9,59 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/style.css?v=8">
+<link rel="stylesheet" href="css/home.css?v=8">
 </head>
-<body>
-
-<nav class="nav">
+<body class="portfolio-home">
+<nav class="nav"><div class="container">
+<a href="#top" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+<button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-menu"><span>Menu</span></button>
+<ul class="nav-links" id="main-menu"><li><a href="#projets"><span data-en="Projects">Projets</span></a></li><li><a href="#experience"><span data-en="Experience">Expérience</span></a></li><li><a href="#competences"><span data-en="Skills">Compétences</span></a></li><li><a href="#formation"><span data-en="Education">Formation</span></a></li><li><a href="#contact">Contact</a></li></ul>
+<div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
+</div></nav>
+<header id="top" class="home-hero"><div class="container home-intro"><div class="intro-copy"><p class="intro-eyebrow">Nazim Allaoua <span>· <span data-en="Geneva, Switzerland">Genève, Suisse</span></span></p><h1>Data Analyst <span class="amp">&amp;</span><br><span class="blue">Business Intelligence.</span></h1><p class="intro-description"><span data-en="Data Analyst in healthcare. Explore my work in BI, programming and AI.">Data Analyst dans la santé. Découvrez mes réalisations en BI, programmation et IA.</span></p><div class="intro-actions"><a href="#projets" class="btn btn-primary"><span data-en="Explore my projects">Découvrir mes projets</span> <span aria-hidden="true">↗</span></a><a href="#contact" class="btn btn-ghost"><span data-en="Get in touch">Me contacter</span></a></div><div class="intro-stack"><span>Power BI</span><span>Qlik Sense</span><span>Tableau</span><span>SQL</span><span>Python</span></div></div><div class="profile-photo"><img src="assets/portrait-full-700.jpg" srcset="assets/portrait-full-700.jpg 700w, assets/portrait-full-1000.jpg 1000w" sizes="(max-width: 600px) 160px, 280px" alt="Nazim Allaoua" width="1122" height="1402" fetchpriority="high"><div class="photo-label"><span class="availability-dot"></span><span data-en="Open to opportunities">Ouvert aux opportunités</span></div></div></div></header>
+<main>
+<section id="projets" class="home-section projects-section"><div class="container"><div class="home-section-head"><div><p class="section-kicker">Portfolio</p><h2><span data-en="Six projects. Practical skills.">Six projets. Du concret.</span></h2></div><p><span data-en="Six interactive demos using synthetic data.">Six démonstrations interactives sur données fictives.</span></p></div><div class="project-grid"><a class="project-tile" href="projects/achats.html"><div class="tile-top"><span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></span><span class="tile-category"><span data-en="Purchasing">Achats</span></span></div><h3><span data-en="Supplier management">Pilotage fournisseurs</span></h3><p><span data-en="Identify spending and suppliers that need attention.">Repérer les dépenses et les fournisseurs à surveiller.</span></p><div class="tile-bottom"><span><span data-en="Explore project">Explorer le projet</span></span><span aria-hidden="true">↗</span></div></a><a class="project-tile" href="projects/ventes.html"><div class="tile-top"><span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.5 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L23 7H6"/></svg></span><span class="tile-category"><span data-en="Sales">Ventes</span></span></div><h3><span data-en="Sales performance">Performance commerciale</span></h3><p><span data-en="Compare channels and forecast sales trends.">Comparer les canaux et anticiper la tendance des ventes.</span></p><div class="tile-bottom"><span><span data-en="Explore project">Explorer le projet</span></span><span aria-hidden="true">↗</span></div></a><a class="project-tile" href="projects/rh.html"><div class="tile-top"><span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="tile-category"><span data-en="Human resources">Ressources humaines</span></span></div><h3><span data-en="Headcount &amp; turnover">Effectifs &amp; turnover</span></h3><p><span data-en="Understand departures and monitor headcount changes.">Comprendre les départs et suivre l’évolution des effectifs.</span></p><div class="tile-bottom"><span><span data-en="Explore project">Explorer le projet</span></span><span aria-hidden="true">↗</span></div></a><a class="project-tile" href="projects/support.html"><div class="tile-top"><span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span><span class="tile-category"><span data-en="Support">Support</span></span></div><h3><span data-en="Tickets &amp; SLAs">Tickets &amp; SLA</span></h3><p><span data-en="Identify delays and monitor customer satisfaction.">Identifier les retards et suivre la satisfaction client.</span></p><div class="tile-bottom"><span><span data-en="Explore project">Explorer le projet</span></span><span aria-hidden="true">↗</span></div></a><a class="project-tile" href="projects/qualite-donnees.html"><div class="tile-top"><span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span><span class="tile-category"><span data-en="Data quality">Qualité des données</span></span></div><h3><span data-en="Anomaly detection">Détection d’anomalies</span></h3><p><span data-en="Find anomalies and adjust detection sensitivity.">Repérer les anomalies et ajuster la sensibilité de détection.</span></p><div class="tile-bottom"><span><span data-en="Explore project">Explorer le projet</span></span><span aria-hidden="true">↗</span></div></a><a class="project-tile" href="projects/ia.html"><div class="tile-top"><span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg></span><span class="tile-category"><span data-en="Artificial intelligence">Intelligence artificielle</span></span></div><h3><span data-en="LLM agents &amp; metadata">Agents LLM &amp; métadonnées</span></h3><p><span data-en="Explore automated analysis that preserves privacy.">Explorer une analyse automatisée qui préserve la confidentialité.</span></p><div class="tile-bottom"><span><span data-en="Explore project">Explorer le projet</span></span><span aria-hidden="true">↗</span></div></a></div></div></section>
+<section id="experience" class="home-section resume-section">
   <div class="container">
-    <a href="#top" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
-    <button class="nav-toggle" aria-label="Menu">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      <span>Menu</span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="#profil">Profil</a></li>
-      <li><a href="#experience">Expérience</a></li>
-      <li><a href="#formation">Formation</a></li>
-      <li><a href="#competences">Compétences</a></li>
-      <li><a href="#projets">Projets</a></li>
-      <li class="nav-contact"><a href="#contact" class="nav-cta">Me contacter</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
-    </div>
-  </div>
-</nav>
-
-<header id="top" class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <div class="hero-tag reveal"><span class="dot"></span> Disponible pour de nouvelles opportunités</div>
-      <h1 class="reveal">Data Analyst &amp; <span class="grad">Business Intelligence</span>, à l'interface entre la donnée et le métier.</h1>
-      <p class="hero-lead reveal">J'aide les organisations à structurer, fiabiliser et exploiter leurs données pour en tirer des décisions claires — de l'intégration dans un Data Warehouse jusqu'aux tableaux de bord, en passant par l'automatisation et l'IA.</p>
-      <div class="hero-cta reveal">
-        <a href="#projets" class="btn btn-primary">Voir mes projets data →</a>
-        <a href="#experience" class="btn btn-ghost">Mon parcours</a>
-      </div>
-    </div>
-    <div class="hero-card reveal">
-      <div class="hero-photo-frame"><img class="hero-photo" src="assets/portrait-full-700.jpg" srcset="assets/portrait-full-700.jpg 700w, assets/portrait-full-1000.jpg 1000w" sizes="(max-width: 640px) 100vw, 560px" alt="Portrait de Nazim Allaoua" width="1122" height="1402"></div>
-      <div class="hero-card-body">
-        <h3>Nazim Allaoua</h3>
-        <div class="role">Data Analyst — Genève, Suisse</div>
-
-        <div class="hero-stats">
-          <div class="hero-stat"><strong data-count="5" data-suffix="+">0</strong><span>ans d'expérience professionnelle</span></div>
-          <div class="hero-stat"><strong data-count="13">0</strong><span>centres médicaux pilotés</span></div>
-          <div class="hero-stat"><strong data-count="5.62" data-decimals="2">0</strong><span>moyenne de Master UNIGE</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<section id="profil">
-  <div class="container about-grid">
-    <div class="reveal">
-      <div class="eyebrow">Profil</div>
-      <h2>Une double compétence : la donnée et le métier</h2>
-      <p class="about-lead">Data Analyst actuellement en poste, je suis titulaire d'un Master en informatique de l'Université de Genève, avec une spécialisation en ingénierie des connaissances. J'ai réalisé l'ensemble de mon parcours universitaire en parallèle d'une activité professionnelle à plein temps, pendant plus de cinq ans dans le secteur de la santé.</p>
-      <p>Cette double expérience m'a permis de développer une rigueur, un sens des priorités ainsi qu'une compréhension concrète des enjeux métiers. J'interviens à l'interface entre les équipes métiers et les systèmes d'information pour analyser les besoins, structurer et fiabiliser les données, améliorer les processus et concevoir des solutions décisionnelles claires, fiables et orientées performance.</p>
-    </div>
-    <div class="about-points reveal">
-      <div class="about-point">
-        <span class="num">01</span>
-        <div><h4>Une approche orientée métier</h4><p>Avant de construire une solution, je cherche à comprendre le besoin, les processus et les décisions qu'elle doit permettre d'améliorer. La technologie reste un moyen, pas une finalité.</p></div>
-      </div>
-      <div class="about-point">
-        <span class="num">02</span>
-        <div><h4>Une vision de bout en bout de la donnée</h4><p>Intégration, transformation, modélisation, analyse et visualisation. J'interviens sur l'ensemble de la chaîne afin de construire des solutions cohérentes, fiables et exploitables.</p></div>
-      </div>
-      <div class="about-point">
-        <span class="num">03</span>
-        <div><h4>Data, automatisation &amp; IA</h4><p>J'explore les nouvelles possibilités offertes par l'automatisation et l'intelligence artificielle pour simplifier les processus, accélérer l'analyse et imaginer de nouveaux usages autour de la donnée.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="experience">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow">Expérience</div>
-      <h2>Du terrain à la donnée : une progression concrète</h2>
-      <p>Plus de cinq ans chez Magellan.ch SA (11 centres médicaux et 2 centres d'imagerie en Suisse), avec une évolution progressive de la comptabilité fournisseurs et le reporting vers l'analyse de données.</p>
-    </div>
-    <div class="timeline reveal">
+<div class="home-section-head"><div><p class="section-kicker"><span data-en="Background">Parcours</span></p><h2><span data-en="Professional contributions">Réalisations professionnelles</span></h2></div><p><span data-en="Magellan.ch SA · 11 medical centres and 2 imaging centres.">Magellan.ch SA · 11 centres médicaux et 2 centres d’imagerie.</span></p></div>
+    <div class="resume-grid">
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head"><h3>Data Analyst — 100%</h3><span class="tl-period">Mai 2025 — Aujourd'hui</span></div>
         <div class="tl-org">Magellan.ch SA, Genève</div>
-        <ul>
+        <ul class="achievement-list"><li><strong><span data-en="Structure data">Structurer la donnée</span></strong><span><span data-en="Coordinating integration into the data warehouse.">Coordination de l’intégration au Data Warehouse.</span></span></li><li><strong><span data-en="Improve reliability">Fiabiliser les analyses</span></strong><span><span data-en="Quality checks, discrepancy tracking and corrections.">Contrôles qualité, suivi des écarts et corrections.</span></span></li><li><strong><span data-en="Support decisions">Outiller la décision</span></strong><span><span data-en="Power BI dashboards, from requirements to publishing.">Dashboards Power BI, de la collecte des besoins à la publication.</span></span></li></ul><details class="mission-details"><summary><span data-en="All responsibilities">Toutes les missions</span></summary><ul>
           <li>Coordination de l'intégration des données dans le Data Warehouse</li>
           <li>Contrôle qualité des données : exactitude, complétude et mise à jour</li>
           <li>Suivi et mise en place des corrections nécessaires</li>
           <li>Conception de tableaux de bord Power BI : recueil des besoins, connexion aux sources (DW, Excel…), nettoyage via Power Query, indicateurs DAX, conception UX, publication et gestion des accès via Power BI Service</li>
           <li>Analyses Excel ponctuelles réalisées à la demande de la Direction</li>
-        </ul>
+        </ul></details>
         <div class="tl-badges"><span class="badge">Power BI</span><span class="badge">DAX</span><span class="badge">Power Query</span><span class="badge">SQL</span><span class="badge">Microsoft Fabric</span><span class="badge">Python</span><span class="badge">Pandas</span></div>
       </div>
-      <div class="tl-item dim">
+      <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head"><h3>Comptable fournisseurs et reporting — 100%</h3><span class="tl-period">Mars 2021 — Avril 2025</span></div>
         <div class="tl-org">Magellan.ch SA, Genève</div>
-        <ul>
+        <ul class="achievement-list"><li><strong><span data-en="Automate processes">Automatiser les processus</span></strong><span><span data-en="Abacus ERP key user and user training.">Référent ERP Abacus et formation des utilisateurs.</span></span></li><li><strong><span data-en="Manage suppliers">Piloter les fournisseurs</span></strong><span><span data-en="Invoices, payments and discrepancy resolution.">Factures, paiements et résolution des écarts.</span></span></li><li><strong><span data-en="Deliver reporting">Produire le reporting</span></strong><span><span data-en="Monitoring dashboards and month-end closing support.">Tableaux de suivi et participation aux clôtures mensuelles.</span></span></li></ul><details class="mission-details"><summary><span data-en="All responsibilities">Toutes les missions</span></summary><ul>
           <li>Gestion complète du cycle de comptabilité fournisseurs (factures, commandes, contrats, paiements)</li>
           <li>Gestion des rappels, échéances et paiements fournisseurs dans les délais</li>
           <li>Suivi des fournisseurs, résolution des écarts et traitement des litiges de facturation</li>
           <li>Répondant ERP Abacus : automatisation des processus et formation des utilisateurs</li>
           <li>Rationalisation et digitalisation des processus internes</li>
           <li>Participation aux bouclements mensuels et production de tableaux de bord de suivi</li>
-        </ul>
+        </ul></details>
         <div class="tl-badges"><span class="badge">ERP Abacus</span><span class="badge">Comptabilité fournisseurs</span><span class="badge">Automatisation</span><span class="badge">Excel avancé</span><span class="badge">Statistiques</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="formation">
+<section id="competences" class="home-section"><div class="container"><div class="home-section-head"><div><p class="section-kicker">Expertise</p><h2><span data-en="Tools &amp; expertise">Outils &amp; savoir-faire</span></h2></div><p><span data-en="BI, programming and business understanding.">BI, programmation et compréhension métier.</span></p></div><div class="skill-grid skills-focused"><div class="skill-cat"><h3><span data-en="BI &amp; visualisation">BI &amp; visualisation</span></h3><p><span data-en="Design clear indicators and dashboards.">Concevoir des indicateurs et des tableaux de bord lisibles.</span></p><div class="chip-row"><span class="chip">Power BI</span><span class="chip">Qlik Sense</span><span class="chip">Tableau</span><span class="chip">DAX</span><span class="chip">Power Query</span><span class="chip">Excel</span></div></div><div class="skill-cat"><h3><span data-en="Programming &amp; AI">Programmation &amp; IA</span></h3><p><span data-en="Analyse, automate and explore multi-agent systems.">Analyser, automatiser et explorer les systèmes multi-agents.</span></p><div class="chip-row"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Pandas</span><span class="chip">Matplotlib</span><span class="chip">LLMs</span><span class="chip">CrewAI</span></div></div><div class="skill-cat"><h3><span data-en="Data &amp; modelling">Données &amp; modélisation</span></h3><p><span data-en="Integration, data quality and dimensional models.">Intégration, qualité des données et modèles dimensionnels.</span></p><div class="chip-row"><span class="chip">Data Warehouse</span><span class="chip">Microsoft Fabric</span><span class="chip">ETL / ELT</span><span class="chip">CTE</span><span class="chip">SQL</span></div></div><div class="skill-cat"><h3><span data-en="Business analysis &amp; reporting">Analyse métier &amp; reporting</span></h3><p><span data-en="Requirements gathering, business processes and communicating findings.">Recueil des besoins, processus métiers et restitution des analyses.</span></p><div class="chip-row"><span class="chip">ERP Abacus</span><span class="chip">Bexio</span><span class="chip">Excel</span></div></div></div><p class="language-note"><span data-en="French · native &amp;nbsp; / &amp;nbsp; English · professional &amp;nbsp; / &amp;nbsp; German · basic">Français · langue maternelle &nbsp; / &nbsp; Anglais · professionnel &nbsp; / &nbsp; Allemand · notions</span></p></div></section>
+<section id="formation" class="home-section resume-section">
   <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow">Formation</div>
-      <h2>Un parcours universitaire mené en parallèle d'un plein temps</h2>
-      <p>Des études universitaires en informatique menées intégralement en parallèle d'une activité professionnelle à 100 %, couronnées par un Bachelor et un Master en informatique de l'Université de Genève.</p>
-    </div>
-    <div class="timeline reveal">
+<div class="home-section-head"><div><p class="section-kicker"><span data-en="Background">Parcours</span></p><h2><span data-en="Education">Formation</span></h2></div><p><span data-en="University studies completed alongside full-time employment.">Un parcours universitaire mené en parallèle d’un emploi à plein temps.</span></p></div>
+    <div class="resume-grid">
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head"><h3>Master en systèmes et services numériques</h3><span class="tl-period">Février 2026</span></div>
@@ -147,13 +76,13 @@
         <p style="margin-bottom:10px">Travail de bachelor : <em>Vers une démocratisation de l'IA — création automatique de contenu éducatif à l'aide de l'intelligence artificielle.</em></p>
         <div class="tl-badges"><span class="badge grade">Moyenne 5.13 / 6</span><span class="badge">180 ECTS</span></div>
       </div>
-      <div class="tl-item dim">
+      <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head"><h3>Bachelor en architecture <span style="color:var(--text-faint); font-weight:500;">(interrompu)</span></h3><span class="tl-period">2018 — 2019</span></div>
         <div class="tl-org">École Polytechnique Fédérale de Lausanne</div>
         <p style="margin:0">Réorientation vers l'informatique après validation de la première année.</p>
       </div>
-      <div class="tl-item dim">
+      <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-head"><h3>Maturité gymnasiale</h3><span class="tl-period">Juin 2018</span></div>
         <div class="tl-org">Collège Émilie-Gourd, Genève</div>
@@ -161,190 +90,7 @@
     </div>
   </div>
 </section>
-
-<section id="competences">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow">Compétences</div>
-      <h2>Outils &amp; savoir-faire</h2>
-      <p>De l'extraction et l'intégration des sources jusqu'à la restitution, je peux intervenir sur l'ensemble de la chaîne de valeur de la donnée.</p>
-    </div>
-    <div class="grid-2 reveal">
-      <div>
-        <div class="skill-cat">
-          <h4>Analyse de données</h4>
-          <div class="chip-row">
-            <span class="chip">Nettoyage &amp; transformation</span><span class="chip">Qualité &amp; fiabilisation</span>
-            <span class="chip">KPIs</span><span class="chip">Référentiels</span><span class="chip">Détection d'anomalies</span>
-          </div>
-        </div>
-        <div class="skill-cat">
-          <h4>BI / Reporting</h4>
-          <div class="chip-row">
-            <span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Power Query</span>
-            <span class="chip">Qlik Sense</span><span class="chip">Excel avancé</span><span class="chip">Tableaux de bord interactifs</span>
-          </div>
-        </div>
-        <div class="skill-cat">
-          <h4>SQL / Modélisation</h4>
-          <div class="chip-row">
-            <span class="chip">SQL</span><span class="chip">Jointures</span><span class="chip">CTE</span>
-            <span class="chip">Agrégations</span><span class="chip">Modélisation dimensionnelle</span><span class="chip">Schéma en étoile</span><span class="chip">ETL / ELT</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="skill-cat">
-          <h4>ERP / Achats / Fournisseurs</h4>
-          <div class="chip-row">
-            <span class="chip">Comptabilité fournisseurs</span><span class="chip">Commandes</span><span class="chip">Contrats</span>
-            <span class="chip">ERP (Abacus, Bexio)</span><span class="chip">Référentiels fournisseurs</span>
-          </div>
-        </div>
-        <div class="skill-cat">
-          <h4>Programmation / IA</h4>
-          <div class="chip-row">
-            <span class="chip">Python</span><span class="chip">Pandas</span><span class="chip">Matplotlib</span>
-            <span class="chip">LLMs</span><span class="chip">Systèmes multi-agents</span><span class="chip">Automatisation</span>
-          </div>
-        </div>
-        <div class="skill-cat">
-          <h4>Analyse fonctionnelle &amp; transversal</h4>
-          <div class="chip-row">
-            <span class="chip">Recueil des besoins</span><span class="chip">Spécifications</span><span class="chip">Vulgarisation</span>
-            <span class="chip">Rigueur</span><span class="chip">Autonomie</span><span class="chip">Force de proposition</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="grid-2 reveal" style="margin-top:36px;">
-      <div class="card">
-        <h3 style="margin-bottom:16px;">Langues</h3>
-        <div class="lang-row"><span>Français</span><span>Langue maternelle</span></div>
-        <div class="lang-row"><span>Anglais</span><span>Niveau professionnel</span></div>
-        <div class="lang-row" style="margin-bottom:0;"><span>Allemand</span><span>Notions de base</span></div>
-      </div>
-      <div class="card">
-        <h3 style="margin-bottom:16px;">Informations complémentaires</h3>
-        <div class="lang-row"><span>Nationalité</span><span>Suisse</span></div>
-        <div class="lang-row" style="margin-bottom:0;"><span>Permis de conduire</span><span>Permis B &amp; Permis A </span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="projets">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow">Projets</div>
-      <h2>Dashboards data interactifs</h2>
-      <p>Six projets que j'ai construits sur des données fictives pour montrer concrètement ce que je sais faire, sur les différentes facettes du métier de Data Analyst : modélisation de données, requêtes SQL, indicateurs de pilotage, statistiques, automatisation et IA. Les calculs s'exécutent directement dans le navigateur — filtrez, triez et explorez.</p>
-    </div>
-    <div class="grid-3 reveal reveal-stagger">
-      <a class="proj-card" href="projects/achats.html" style="--i:0">
-        <div class="proj-thumb" style="background:radial-gradient(circle at 30% 20%, rgba(124,140,255,.35), transparent 60%), #0d1220;">
-          <div class="glow" style="background:#7c8cff;"></div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
-        </div>
-        <div class="proj-body">
-          <h3>Achats — Pilotage fournisseurs</h3>
-          <p>1 600 factures fournisseurs sur 9 centres : dépenses par catégorie, retards de paiement, fournisseurs à risque. Filtres croisés et table triable.</p>
-          <div class="proj-tags"><span>Filtres dynamiques</span><span>KPIs</span><span>Visualisation de données</span><span>Table triable</span></div>
-          <span class="proj-link">Explorer le dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-      <a class="proj-card" href="projects/ventes.html" style="--i:1">
-        <div class="proj-thumb" style="background:radial-gradient(circle at 30% 20%, rgba(34,211,238,.35), transparent 60%), #0d1220;">
-          <div class="glow" style="background:#22d3ee;"></div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.5 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L23 7H6"/></svg>
-        </div>
-        <div class="proj-body">
-          <h3>Ventes — Retail &amp; e-commerce</h3>
-          <p>24 mois de ventes sur 7 boutiques et 2 canaux en ligne : chiffre d'affaires, panier moyen, retours, projection de tendance et heatmap horaire.</p>
-          <div class="proj-tags"><span>Séries temporelles</span><span>Heatmap</span><span>Multi-sélection</span><span>KPIs</span></div>
-          <span class="proj-link">Explorer le dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-      <a class="proj-card" href="projects/rh.html" style="--i:2">
-        <div class="proj-thumb" style="background:radial-gradient(circle at 30% 20%, rgba(52,211,153,.35), transparent 60%), #0d1220;">
-          <div class="glow" style="background:#34d399;"></div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div class="proj-body">
-          <h3>RH — Effectifs &amp; turnover</h3>
-          <p>Embauches et départs sur 24 mois et 8 départements : turnover, motifs de départ, ancienneté. Journal d'événements filtrable par département, poste et période.</p>
-          <div class="proj-tags"><span>Filtres dynamiques</span><span>KPIs</span><span>Visualisation de données</span><span>Table triable</span></div>
-          <span class="proj-link">Explorer le dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-      <a class="proj-card" href="projects/support.html" style="--i:3">
-        <div class="proj-thumb" style="background:radial-gradient(circle at 30% 20%, rgba(244,114,182,.35), transparent 60%), #0d1220;">
-          <div class="glow" style="background:#f472b6;"></div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-        </div>
-        <div class="proj-body">
-          <h3>Support — Tickets &amp; SLA</h3>
-          <p>1 750 tickets sur 24 mois : volumes par canal et catégorie, respect des SLA par priorité, satisfaction client mesurée sur chaque ticket résolu.</p>
-          <div class="proj-tags"><span>Filtres dynamiques</span><span>KPIs</span><span>Visualisation de données</span><span>Table triable</span></div>
-          <span class="proj-link">Explorer le dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-      <a class="proj-card" href="projects/qualite-donnees.html" style="--i:4">
-        <div class="proj-thumb" style="background:radial-gradient(circle at 30% 20%, rgba(192,132,252,.35), transparent 60%), #0d1220;">
-          <div class="glow" style="background:#c084fc;"></div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
-        </div>
-        <div class="proj-body">
-          <h3>Qualité — Détection d'anomalies</h3>
-          <p>600 transactions passées au crible de deux méthodes statistiques (score Z, IQR) avec seuil réglable : anomalies visibles en direct sur un nuage de points.</p>
-          <div class="proj-tags"><span>Statistiques</span><span>Seuil dynamique</span><span>Scatter plot</span><span>Contrôle qualité</span></div>
-          <span class="proj-link">Explorer le dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-      <a class="proj-card" href="projects/ia.html" style="--i:5">
-        <div class="proj-thumb" style="background:radial-gradient(circle at 30% 20%, rgba(251,191,36,.35), transparent 60%), #0d1220;">
-          <div class="glow" style="background:#fbbf24;"></div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg>
-        </div>
-        <div class="proj-body">
-          <h3>IA — Agents LLM &amp; métadonnées</h3>
-          <p>Rejeu de mon mémoire de Master : des agents LLM analysent des métadonnées, jamais les données brutes — guardrails et audit de confidentialité inclus.</p>
-          <div class="proj-tags"><span>Multi-agents LLM</span><span>Privacy-by-design</span><span>Guardrails</span><span>Métadonnées</span></div>
-          <span class="proj-link">Explorer le dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="tight">
-  <div class="container">
-    <div class="contact-box reveal">
-      <div class="eyebrow" style="justify-content:center;">Contact</div>
-      <h2>Discutons de votre prochaine opportunité</h2>
-      <p>Une opportunité à pourvoir ? Contactez-moi. Je réponds rapidement pour toute information complémentaire, pour convenir d’un entretien ou pour vous transmettre mes documents justificatifs, notamment mes certificats de travail, diplômes et relevés de notes.</p>
-      <div class="contact-actions">
-        <a href="mailto:nazim.allaoua@gmail.com" class="btn btn-primary">✉ nazim.allaoua@gmail.com</a>
-        <a href="https://www.linkedin.com/in/nazim-allaoua" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn — Nazim Allaoua</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
-    <div class="foot-links">
-      <a href="#profil">Profil</a>
-      <a href="#experience">Expérience</a>
-      <a href="#formation">Formation</a>
-      <a href="#competences">Compétences</a>
-      <a href="#projets">Projets</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-</footer>
-
-<script src="js/main.js?v=3"></script>
-</body>
-</html>
+<section id="contact" class="home-section"><div class="container"><div class="contact-banner"><div><p class="section-kicker">Contact</p><h2><span data-en="Let’s discuss an opportunity.">Échangeons sur une opportunité.</span></h2></div><div class="contact-buttons"><a class="btn btn-primary" href="mailto:nazim.allaoua@gmail.com">nazim.allaoua@gmail.com ↗</a><a class="btn btn-ghost" href="https://www.linkedin.com/in/nazim-allaoua" target="_blank" rel="noopener">LinkedIn ↗</a></div></div></div></section>
+</main>
+<footer><div class="container"><p>© 2026 Nazim Allaoua</p><a href="#top"><span data-en="Back to top ↑">Retour en haut ↑</span></a></div></footer>
+<script src="js/translations.js?v=8"></script><script src="js/i18n.js?v=8"></script><script src="js/main.js?v=8"></script></body></html>

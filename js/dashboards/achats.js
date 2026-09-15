@@ -15,7 +15,7 @@
   const monthsSet = [...new Set(ACHATS_DATA.map((r) => r.date.slice(0, 7)))].sort();
   const monthLabel = (m) => {
     const [y, mo] = m.split("-");
-    return new Date(y, mo - 1, 1).toLocaleDateString("fr-CH", { month: "short", year: "numeric" });
+    return new Date(y, mo - 1, 1).toLocaleDateString(window.portfolioLocale(), { month: "short", year: "numeric" });
   };
 
   function fillSelect(el, values, labelFn) {
@@ -266,6 +266,7 @@
     render();
   }));
 
+  document.addEventListener("languagechange", render);
   document.addEventListener("DOMContentLoaded", render);
   if (document.readyState !== "loading") render();
 })();

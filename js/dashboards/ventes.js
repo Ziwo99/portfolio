@@ -19,7 +19,7 @@
 
   const monthLabel = (m) => {
     const [y, mo] = m.split("-");
-    return new Date(y, mo - 1, 1).toLocaleDateString("fr-CH", { month: "short", year: "numeric" });
+    return new Date(y, mo - 1, 1).toLocaleDateString(window.portfolioLocale(), { month: "short", year: "numeric" });
   };
   function fillSelect(el, values, labelFn) {
     values.forEach((v) => {
@@ -239,5 +239,6 @@
   });
 
   renderToggles();
+  document.addEventListener("languagechange", render);
   render();
 })();

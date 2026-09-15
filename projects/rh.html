@@ -9,58 +9,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=3">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+<link rel="stylesheet" href="../css/style.css?v=8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<link rel="stylesheet" href="../css/projects.css?v=8">
 </head>
-<body>
+<body class="project-page">
 
-<nav class="nav scrolled">
-  <div class="container">
-    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
-    <button class="nav-toggle" aria-label="Menu">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      <span>Menu</span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="../index.html#profil">Profil</a></li>
-      <li><a href="../index.html#experience">Expérience</a></li>
-      <li><a href="../index.html#formation">Formation</a></li>
-      <li><a href="../index.html#competences">Compétences</a></li>
-      <li><a href="../index.html#projets">Projets</a></li>
-      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
-    </div>
-  </div>
-</nav>
+<nav class="nav"><div class="container">
+<a href="../index.html#top" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+<button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-menu"><span>Menu</span></button>
+<ul class="nav-links" id="main-menu"><li><a href="../index.html#projets"><span data-en="Projects">Projets</span></a></li><li><a href="../index.html#experience"><span data-en="Experience">Expérience</span></a></li><li><a href="../index.html#formation"><span data-en="Education">Formation</span></a></li><li><a href="../index.html#competences"><span data-en="Skills">Compétences</span></a></li><li><a href="../index.html#contact">Contact</a></li></ul>
+<div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
+</div></nav>
 
-<header class="proj-hero">
-  <div class="container">
-    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> RH — Effectifs &amp; turnover</div>
-    <div class="disclaimer reveal">⚠ Données 100% fictives, générées à des fins de démonstration</div>
-    <h1 class="reveal">RH — Effectifs &amp; turnover</h1>
-    <div class="skills-demo reveal">
-      <span>Filtrage multi-critères en temps réel</span><span>Agrégations dynamiques</span>
-      <span>Taux de turnover</span><span>Table triable &amp; paginée</span><span>Visualisation de données</span>
-    </div>
-    <div class="explain-grid reveal">
-      <div class="card">
-        <h3>Approche</h3>
-        <p>Chaque ligne du jeu de données (200+ mouvements fictifs) est un événement daté — embauche ou départ — avec département, poste, motif et ancienneté.</p>
-      </div>
-      <div class="card">
-        <h3>Ce que ce projet démontre</h3>
-        <p>Construction d'indicateurs RH (turnover, ancienneté), requêtes SQL sur un journal d'événements, agrégations conditionnelles en Python.</p>
-      </div>
-    </div>
-  </div>
-</header>
+<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="Headcount &amp; turnover">Effectifs &amp; turnover</span></h1><p class="project-purpose"><span data-en="Understand headcount changes and departures.">Comprendre les mouvements d’effectifs et les départs.</span></p></div><span class="demo-note"><span data-en="Synthetic data">Données fictives</span></span></div></div></header>
 
 <section class="tight">
   <div class="container">
     <nav class="proj-tabs reveal" aria-label="Sections du projet">
-      <a href="#analyse">Analyse</a>
+      <a href="#analyse"><span data-en="Interactive demo">Démo interactive</span></a>
       <a href="#modele-donnees">Modèle de données</a>
       <a href="#code">Exemple de code</a>
     </nav>
@@ -106,35 +73,35 @@
       <div class="chart-grid">
         <div class="chart-box">
           <h4>Évolution mensuelle — embauches vs départs</h4>
-          <div class="sub">Selon les filtres actifs</div>
+
           <canvas id="chart-evolution"></canvas>
         </div>
         <div class="chart-box">
           <h4>Répartition des départs par motif</h4>
-          <div class="sub">Part des départs filtrés</div>
+
           <canvas id="chart-motif"></canvas>
         </div>
       </div>
 
-      <div class="chart-grid thirds">
+      <details class="dashboard-detail"><summary><span data-en="More analysis">Analyses complémentaires</span></summary><div class="chart-grid thirds">
         <div class="chart-box">
           <h4>Départements les plus touchés</h4>
-          <div class="sub">Nombre de départs</div>
+
           <canvas id="chart-departements"></canvas>
         </div>
         <div class="chart-box">
           <h4>Ancienneté moyenne au départ</h4>
-          <div class="sub">Par département (années)</div>
+
           <canvas id="chart-anciennete"></canvas>
         </div>
         <div class="chart-box">
           <h4>Embauches / départs</h4>
-          <div class="sub">Sur la sélection</div>
+
           <canvas id="chart-type"></canvas>
         </div>
-      </div>
+      </div></details>
 
-      <div class="table-wrap">
+      <details class="dashboard-detail"><summary><span data-en="Explore detailed data">Explorer les données détaillées</span></summary><div class="table-wrap">
         <div class="table-scroll">
           <table class="data-table" id="table">
             <thead>
@@ -158,9 +125,9 @@
             <button id="pager-next">›</button>
           </div>
         </div>
-      </div>
+      </div></details>
 
-      <div class="insight-panel">
+      <details class="dashboard-detail"><summary><span data-en="Read insights">Lire les observations</span></summary><div class="insight-panel">
         <div class="ip-head">
           <div class="ip-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
@@ -168,7 +135,7 @@
           <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct à partir des filtres actifs</span></div>
         </div>
         <div class="insight-list" id="insight-list"></div>
-      </div>
+      </div></details>
 
     </div>
     </div>
@@ -292,7 +259,17 @@ print("Departements a surveiller :", a_surveiller.round(1).to_dict())</code></pr
       </div>
     </div>
 
-    <div class="next-proj reveal">
+    <details class="project-details"><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Chaque ligne du jeu de données (200+ mouvements fictifs) est un événement daté — embauche ou départ — avec département, poste, motif et ancienneté.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Construction d'indicateurs RH (turnover, ancienneté), requêtes SQL sur un journal d'événements, agrégations conditionnelles en Python.</p>
+      </div>
+    </div></details>
+<div class="next-proj reveal">
       <a href="ventes.html">← Projet précédent : Ventes — Retail &amp; e-commerce</a>
       <a href="support.html">Projet suivant : Support — Tickets &amp; SLA →</a>
     </div>
@@ -302,21 +279,15 @@ print("Departements a surveiller :", a_surveiller.round(1).to_dict())</code></pr
 <footer>
   <div class="container">
     <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
-    <div class="foot-links">
-      <a href="../index.html#profil">Profil</a>
-      <a href="../index.html#experience">Expérience</a>
-      <a href="../index.html#formation">Formation</a>
-      <a href="../index.html#competences">Compétences</a>
-      <a href="../index.html#projets">Projets</a>
-      <a href="../index.html#contact">Contact</a>
-    </div>
+    <div class="foot-links"><a href="../index.html#projets">Projets</a><a href="../index.html#experience">Expérience</a><a href="../index.html#formation">Formation</a><a href="../index.html#contact">Contact</a>    </div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="../js/main.js?v=3"></script>
-<script src="../js/data/rh-data.js?v=3"></script>
-<script src="../js/dashboards/rh.js?v=3"></script>
+<script src="../js/translations.js?v=8"></script><script src="../js/i18n.js?v=8"></script>
+<script src="../js/main.js?v=8"></script>
+<script src="../js/data/rh-data.js?v=8"></script>
+<script src="../js/dashboards/rh.js?v=8"></script>
 </body>
 </html>

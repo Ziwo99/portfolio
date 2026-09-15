@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=3">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.min.css">
+<link rel="stylesheet" href="../css/style.css?v=8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 <style>
   .meta-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; }
   .meta-chip { font-size: 12.5px; padding: 6px 12px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); }
@@ -69,57 +69,23 @@
   .eval-table { min-width: 0 !important; }
   .eval-note { font-size: 13px; color: var(--text-faint); margin: 10px 2px 0; }
 </style>
+<link rel="stylesheet" href="../css/projects.css?v=8">
 </head>
-<body>
+<body class="project-page">
 
-<nav class="nav scrolled">
-  <div class="container">
-    <a href="../index.html" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
-    <button class="nav-toggle" aria-label="Menu">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      <span>Menu</span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="../index.html#profil">Profil</a></li>
-      <li><a href="../index.html#experience">Expérience</a></li>
-      <li><a href="../index.html#formation">Formation</a></li>
-      <li><a href="../index.html#competences">Compétences</a></li>
-      <li><a href="../index.html#projets">Projets</a></li>
-      <li class="nav-contact"><a href="../index.html#contact" class="nav-cta">Me contacter</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="../index.html#contact" class="btn btn-primary btn-sm btn-cv">Me contacter</a>
-    </div>
-  </div>
-</nav>
+<nav class="nav"><div class="container">
+<a href="../index.html#top" class="brand"><span class="brand-mark">NA</span> Nazim Allaoua</a>
+<button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-menu"><span>Menu</span></button>
+<ul class="nav-links" id="main-menu"><li><a href="../index.html#projets"><span data-en="Projects">Projets</span></a></li><li><a href="../index.html#experience"><span data-en="Experience">Expérience</span></a></li><li><a href="../index.html#formation"><span data-en="Education">Formation</span></a></li><li><a href="../index.html#competences"><span data-en="Skills">Compétences</span></a></li><li><a href="../index.html#contact">Contact</a></li></ul>
+<div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
+</div></nav>
 
-<header class="proj-hero">
-  <div class="container">
-    <div class="breadcrumb reveal"><a href="../index.html">Accueil</a> <span>/</span> <a href="../index.html#projets">Projets</a> <span>/</span> IA — Agents LLM &amp; métadonnées</div>
-    <div class="disclaimer reveal">⚠ Échantillons synthétiques reproduisant les schémas des jeux Kaggle du mémoire</div>
-    <div class="disclaimer reveal">Sorties LLM rejouées depuis des artefacts pré-enregistrés</div>
-    <h1 class="reveal">IA — Agents LLM &amp; métadonnées</h1>
-    <div class="skills-demo reveal">
-      <span>Systèmes multi-agents LLM</span><span>Privacy-by-design</span><span>Raisonnement sur métadonnées</span>
-      <span>Guardrails &amp; contrats Pydantic</span><span>Python · CrewAI · Streamlit · GPT-4o</span>
-    </div>
-    <div class="explain-grid reveal">
-      <div class="card">
-        <h3>Approche</h3>
-        <p>Le prototype original (mémoire de Master UNIGE) tourne en local avec CrewAI, GPT-4o et Pydantic pour les contrats d'artefacts. Cette démo en rejoue l'architecture dans le navigateur : le module système s'exécute réellement, les sorties d'agents sont pré-enregistrées — un site public ne peut exposer ni clé d'API ni coût variable.</p>
-      </div>
-      <div class="card">
-        <h3>Ce que ce projet démontre</h3>
-        <p>Séparation données–raisonnement, orchestration multi-agents avec artefacts traçables, guardrails avec reprise contrôlée, audit automatisé de confidentialité.</p>
-      </div>
-    </div>
-  </div>
-</header>
+<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="LLM agents &amp; metadata">Agents LLM &amp; métadonnées</span></h1><p class="project-purpose"><span data-en="Explore automated analysis that preserves privacy.">Explorer une analyse automatisée qui préserve la confidentialité.</span></p></div><span class="demo-note"><span data-en="Synthetic data · pre-recorded LLM outputs">Données fictives · sorties LLM préenregistrées</span></span></div></div></header>
 
 <section class="tight">
   <div class="container">
     <nav class="proj-tabs reveal" aria-label="Sections du projet">
-      <a href="#analyse">Analyse</a>
+      <a href="#analyse"><span data-en="Interactive demo">Démo interactive</span></a>
       <a href="#modele-donnees">Architecture</a>
       <a href="#resultats">Résultats</a>
       <a href="#code">Exemple de code</a>
@@ -166,7 +132,7 @@
         <div class="chart-grid" id="charts-grid"></div>
       </div>
 
-      <div class="insight-panel" id="rapport-panel" hidden>
+      <details class="dashboard-detail"><summary><span data-en="Read insights">Lire les observations</span></summary><div class="insight-panel" id="rapport-panel" hidden>
         <div class="ip-head">
           <div class="ip-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
@@ -174,7 +140,7 @@
           <div><h4>Rapport d'analyse</h4><span id="rapport-sub">—</span></div>
         </div>
         <div class="insight-list" id="rapport-list"></div>
-      </div>
+      </div></details>
 
     </div>
     </div>
@@ -242,7 +208,7 @@
           <div class="kpi"><span class="label">RQ4 · Multi vs mono</span><span class="value">13 <span class="trend" style="color:var(--text-faint)">vs 4</span></span><span class="eval-note">dimensions couvertes — mono-agent 11× plus rapide</span></div>
         </div>
         <h4 style="margin:26px 0 12px;">RQ1 — Faisabilité par jeu de données (5 exécutions)</h4>
-        <div class="table-wrap">
+        <details class="dashboard-detail"><summary><span data-en="Explore detailed data">Explorer les données détaillées</span></summary><div class="table-wrap">
           <div class="table-scroll">
             <table class="data-table eval-table">
               <thead><tr><th>Jeu de données</th><th>Temps moyen</th><th>Succès</th><th>Coût / succès</th></tr></thead>
@@ -253,7 +219,7 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </div></details>
         <h4 style="margin:22px 0 12px;">RQ4 — Multi-agent vs mono-agent (3 exécutions, même jeu de données)</h4>
         <div class="table-wrap">
           <div class="table-scroll">
@@ -425,7 +391,17 @@ confidentiality_tester:
       </div>
     </div>
 
-    <div class="next-proj reveal">
+    <details class="project-details"><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Le prototype original (mémoire de Master UNIGE) tourne en local avec CrewAI, GPT-4o et Pydantic pour les contrats d'artefacts. Cette démo en rejoue l'architecture dans le navigateur : le module système s'exécute réellement, les sorties d'agents sont pré-enregistrées — un site public ne peut exposer ni clé d'API ni coût variable.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Séparation données–raisonnement, orchestration multi-agents avec artefacts traçables, guardrails avec reprise contrôlée, audit automatisé de confidentialité.</p>
+      </div>
+    </div></details>
+<div class="next-proj reveal">
       <a href="qualite-donnees.html">← Projet précédent : Qualité — Détection d'anomalies</a>
       <a href="../index.html#projets">Retour aux projets →</a>
     </div>
@@ -435,21 +411,15 @@ confidentiality_tester:
 <footer>
   <div class="container">
     <p>© 2026 Nazim Allaoua — Genève, Suisse</p>
-    <div class="foot-links">
-      <a href="../index.html#profil">Profil</a>
-      <a href="../index.html#experience">Expérience</a>
-      <a href="../index.html#formation">Formation</a>
-      <a href="../index.html#competences">Compétences</a>
-      <a href="../index.html#projets">Projets</a>
-      <a href="../index.html#contact">Contact</a>
-    </div>
+    <div class="foot-links"><a href="../index.html#projets">Projets</a><a href="../index.html#experience">Expérience</a><a href="../index.html#formation">Formation</a><a href="../index.html#contact">Contact</a>    </div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="../js/main.js?v=3"></script>
-<script src="../js/data/ia-data.js?v=4"></script>
-<script src="../js/dashboards/ia.js?v=4"></script>
+<script src="../js/translations.js?v=8"></script><script src="../js/i18n.js?v=8"></script>
+<script src="../js/main.js?v=8"></script>
+<script src="../js/data/ia-data.js?v=8"></script>
+<script src="../js/dashboards/ia.js?v=8"></script>
 </body>
 </html>
