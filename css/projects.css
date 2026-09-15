@@ -30,6 +30,7 @@
 .chart-box h4 { font-size:15px; line-height:1.4; font-weight:600; margin-bottom:20px; }
 .chart-box canvas { width:100%!important; height:275px!important; max-height:275px; }
 .dashboard-detail,.project-details { margin:16px 0 0; padding:0 20px; border:1px solid var(--border); border-radius:10px; background:#fff; }
+.dashboard-detail { margin-bottom:20px; }
 .dashboard-detail > summary,.project-details > summary { padding:17px 0; color:var(--text-dim); font-size:14px; font-weight:500; }
 .dashboard-detail[open],.project-details[open] { padding-bottom:20px; }
 .dashboard-detail .chart-grid { margin:0; }
