@@ -275,6 +275,7 @@ section.tight { padding: 44px 0; }
   will-change: transform;
 }
 .card:hover { transform: translateY(-4px); border-color: var(--border-strong); background: var(--surface-strong); }
+.project-details .card:hover { transform: none; background: transparent; border-color: transparent; }
 .card .icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--surface-strong); border: 1px solid var(--border); margin-bottom: 16px; color: var(--accent-2); }
 .card h3 { font-size: 18px; margin-bottom: 8px; }
 .card p { font-size: 15.5px; margin-bottom: 0; }
@@ -529,8 +530,8 @@ table.data-table tr:hover td { background: rgba(255,255,255,.02); color: var(--t
    Insights automatiques
    ========================================================================== */
 .insight-panel {
-  border-radius: var(--radius); border: 1px solid rgba(124,140,255,.25);
-  background: linear-gradient(135deg, rgba(124,140,255,.08), rgba(34,211,238,.04));
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--surface);
   padding: 24px 26px; margin-top: 26px;
 }
 .insight-panel .ip-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
@@ -545,7 +546,7 @@ table.data-table tr:hover td { background: rgba(255,255,255,.02); color: var(--t
   display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: var(--text-dim);
   padding: 14px 16px; border-radius: var(--radius-sm); background: var(--bg-alt); border: 1px solid var(--border);
 }
-.insight-item b, .insight-item strong { color: var(--text); }
+.insight-item b, .insight-item strong { color: var(--accent); font-weight: 700; }
 .insight-item .bullet { color: var(--accent-2); flex-shrink: 0; margin-top: 1px; }
 
 /* ==========================================================================
