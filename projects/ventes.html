@@ -38,7 +38,18 @@
 <div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
 </div></nav>
 
-<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="Sales performance">Performance commerciale</span></h1><p class="project-purpose"><span data-en="Compare channels and explore sales trends.">Comparer les canaux et explorer les tendances de vente.</span></p></div><span class="demo-note"><span data-en="Synthetic data">Données fictives</span></span></div></div></header>
+<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="Sales performance">Performance commerciale</span></h1><p class="project-purpose"><span data-en="Compare channels and explore sales trends.">Comparer les canaux et explorer les tendances de vente.</span></p></div><span class="demo-note"><span data-en="Synthetic data">Données fictives</span></span></div>
+<details class="project-details" open><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>24 mois de ventes sur 9 points de vente et 2 canaux, agrégés différemment selon la métrique : somme pour les volumes, moyenne pour les taux. La heatmap repère les pics d'activité par créneau horaire.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Agrégations conditionnelles selon le type de métrique, requêtes SQL avec fonctions de fenêtrage, projection de tendance en Python, lecture de la saisonnalité.</p>
+      </div>
+    </div></details>
+</div></header>
 
 <section class="tight">
   <div class="container">
@@ -89,7 +100,17 @@
         <div class="kpi"><span class="label">Taux de retour</span><span class="value" id="kpi-retour">—</span></div>
       </div>
 
-      <div class="chart-grid">
+      <div class="insight-panel">
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct, incluant une projection à court terme par régression linéaire</span></div>
+        </div>
+        <div class="insight-list" id="insight-list"></div>
+      </div>
+
+      <details class="dashboard-detail"><summary><span data-en="More analysis">Analyses complémentaires</span></summary><div class="chart-grid">
         <div class="chart-box">
           <h4 id="chart-evolution-title">Évolution mensuelle</h4>
 
@@ -101,21 +122,10 @@
           <canvas id="chart-compare"></canvas>
         </div>
       </div>
-
       <div class="chart-box">
         <h4>Répartition des commandes — jour &amp; heure</h4>
 
         <div class="heatmap" id="heatmap" style="margin-top:14px;"></div>
-      </div>
-
-      <details class="dashboard-detail"><summary><span data-en="Read insights">Lire les observations</span></summary><div class="insight-panel">
-        <div class="ip-head">
-          <div class="ip-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
-          </div>
-          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct, incluant une projection à court terme par régression linéaire</span></div>
-        </div>
-        <div class="insight-list" id="insight-list"></div>
       </div></details>
 
     </div>
@@ -219,16 +229,6 @@ print("Projection a 2 mois :", projection.round(0).tolist())</code></pre>
       </div>
     </div>
 
-    <details class="project-details"><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
-      <div class="card">
-        <h3>Approche</h3>
-        <p>24 mois de ventes sur 9 points de vente et 2 canaux, agrégés différemment selon la métrique : somme pour les volumes, moyenne pour les taux. La heatmap repère les pics d'activité par créneau horaire.</p>
-      </div>
-      <div class="card">
-        <h3>Ce que ce projet démontre</h3>
-        <p>Agrégations conditionnelles selon le type de métrique, requêtes SQL avec fonctions de fenêtrage, projection de tendance en Python, lecture de la saisonnalité.</p>
-      </div>
-    </div></details>
 <div class="next-proj reveal">
       <a href="achats.html">← Projet précédent : Achats — Pilotage fournisseurs</a>
       <a href="rh.html">Projet suivant : RH — Effectifs &amp; turnover →</a>

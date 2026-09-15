@@ -543,7 +543,7 @@ table.data-table tr:hover td { background: rgba(255,255,255,.02); color: var(--t
 .insight-list { display: grid; gap: 12px; }
 .insight-item {
   display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: var(--text-dim);
-  padding: 12px 14px; border-radius: 10px; background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  padding: 14px 16px; border-radius: var(--radius-sm); background: var(--bg-alt); border: 1px solid var(--border);
 }
 .insight-item b, .insight-item strong { color: var(--text); }
 .insight-item .bullet { color: var(--accent-2); flex-shrink: 0; margin-top: 1px; }
