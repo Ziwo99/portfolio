@@ -35,6 +35,12 @@
 
   let selected = new Set(VENTES_META.pointsVente);
 
+  // ---- Sort / pagination state (table) ----
+  let sortKey = "mois";
+  let sortDir = -1;
+  let page = 1;
+  const PAGE_SIZE = 12;
+
   function renderToggles() {
     const type = els.type.value;
     const visible = VENTES_META.pointsVente.filter((c) => !type || (VENTES_META[type === "Boutique" ? "boutiques" : "enLigne"].includes(c)));
@@ -46,6 +52,7 @@
         const c = btn.dataset.centre;
         if (selected.has(c)) selected.delete(c); else selected.add(c);
         btn.classList.toggle("active");
+        page = 1;
         render();
       });
     });
@@ -148,6 +155,42 @@
 
     renderInsights({ rows, pointsVente, pvKeys, byPV, metric, metricKey, forecast });
     renderHeatmap(pointsVente);
+
+    // Table
+    const sorted = [...rows].sort((a, b) => {
+      let av = a[sortKey], bv = b[sortKey];
+      if (typeof av === "string") return av.localeCompare(bv) * sortDir;
+      return (av - bv) * sortDir;
+    });
+    const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+    page = Math.min(page, totalPages);
+    const pageRows = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+    document.getElementById("table-body").innerHTML = pageRows.map((r) => `
+      <tr>
+        <td>${r.pointVente}</td>
+        <td>${monthLabel(r.mois)}</td>
+        <td>${r.type}</td>
+        <td>${fmtNum(r.commandes)}</td>
+        <td>${fmtCHF(r.chiffreAffaires)}</td>
+        <td>${fmtCHF(r.panierMoyen)}</td>
+        <td>${fmtNum(r.tauxRetour, 1)} %</td>
+      </tr>`).join("");
+
+    document.getElementById("pager-info").textContent =
+      `${sorted.length} ligne(s) — page ${page} / ${totalPages}`;
+    document.getElementById("pager-prev").disabled = page <= 1;
+    document.getElementById("pager-next").disabled = page >= totalPages;
+
+    document.querySelectorAll("#table th").forEach((th) => {
+      th.querySelector(".arrow")?.remove();
+      if (th.dataset.key === sortKey) {
+        const arrow = document.createElement("span");
+        arrow.className = "arrow";
+        arrow.textContent = sortDir === 1 ? "↑" : "↓";
+        th.appendChild(arrow);
+      }
+    });
   }
 
   function nextMonths(lastKey, n) {
@@ -229,14 +272,22 @@
     el.innerHTML = html;
   }
 
-  els.type.addEventListener("change", () => { renderToggles(); render(); });
-  [els.metric, els.du, els.au].forEach((e) => e.addEventListener("change", render));
+  els.type.addEventListener("change", () => { page = 1; renderToggles(); render(); });
+  [els.metric, els.du, els.au].forEach((e) => e.addEventListener("change", () => { page = 1; render(); }));
   els.reset.addEventListener("click", () => {
     els.metric.value = "commandes"; els.type.value = "";
     els.du.value = VENTES_META.mois[0]; els.au.value = VENTES_META.mois[VENTES_META.mois.length - 1];
     selected = new Set(VENTES_META.pointsVente);
+    page = 1;
     renderToggles(); render();
   });
+  document.getElementById("pager-prev").addEventListener("click", () => { page--; render(); });
+  document.getElementById("pager-next").addEventListener("click", () => { page++; render(); });
+  document.querySelectorAll("#table th").forEach((th) => th.addEventListener("click", () => {
+    const key = th.dataset.key;
+    if (sortKey === key) sortDir *= -1; else { sortKey = key; sortDir = 1; }
+    render();
+  }));
 
   renderToggles();
   document.addEventListener("languagechange", render);
