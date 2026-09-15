@@ -63,6 +63,8 @@
 .skill-cat h4 { font-size:16px; line-height:1.4; margin-bottom:18px; letter-spacing:-.015em; }
 .skill-cat h4::before { display:none; }
 .chip-row { gap:6px; margin:0; }
+.chip-row.chip-row-tight { gap:4px; }
+.chip-row.chip-row-tight .chip { padding:5px 7px; }
 .chip { font-size:12px; padding:5px 8px; border-radius:5px; background:#f7f9fc; border-color:#e7ebf2; }
 #competences .card { box-shadow:none; border-radius:12px; padding:24px; }
 #competences .card h3 { font-size:18px; }
