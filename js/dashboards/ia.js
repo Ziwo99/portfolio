@@ -14,6 +14,7 @@
     chartsBox: document.getElementById("charts-box"),
     chartsGrid: document.getElementById("charts-grid"),
     rapportPanel: document.getElementById("rapport-panel"),
+    rapportDetails: document.getElementById("rapport-panel").closest("details"),
     rapportList: document.getElementById("rapport-list"),
     rapportSub: document.getElementById("rapport-sub"),
   };
@@ -298,6 +299,8 @@
     els.chartsGrid.innerHTML = "";
     els.chartsBox.hidden = true;
     els.rapportPanel.hidden = true;
+    els.rapportDetails.hidden = true;
+    els.rapportDetails.open = false;
     ["kpi-etapes", "kpi-reprises", "kpi-sous", "kpi-audit"].forEach((id) => (document.getElementById(id).textContent = "—"));
   }
 
@@ -347,6 +350,7 @@
     els.rapportList.innerHTML = items.map((t) => `<div class="insight-item"><span class="bullet">→</span><span>${t}</span></div>`).join("");
     els.rapportSub.textContent = `${ds.nom} · mode ${mode === "multi" ? "multi-agent" : "mono-agent"} · ${reprises} reprise(s) guardrail`;
     els.rapportPanel.hidden = false;
+    els.rapportDetails.hidden = false;
   }
 
   // ======================================================================

@@ -536,8 +536,8 @@ table.data-table tr:hover td { background: rgba(255,255,255,.02); color: var(--t
 }
 .insight-panel .ip-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .insight-panel .ip-head .ip-icon {
-  width: 30px; height: 30px; border-radius: 9px; background: var(--grad);
-  display: flex; align-items: center; justify-content: center; color: #0a0e17; flex-shrink: 0;
+  width: 30px; height: 30px; border-radius: 9px; background: var(--surface-strong); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0;
 }
 .insight-panel .ip-head h4 { margin: 0; font-size: 16px; }
 .insight-panel .ip-head span { font-size: 13px; color: var(--text-faint); }
