@@ -22,12 +22,24 @@
 <div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
 </div></nav>
 
-<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="Headcount &amp; turnover">Effectifs &amp; turnover</span></h1><p class="project-purpose"><span data-en="Understand headcount changes and departures.">Comprendre les mouvements d’effectifs et les départs.</span></p></div><span class="demo-note"><span data-en="Synthetic data">Données fictives</span></span></div></div></header>
+<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="Headcount &amp; turnover">Effectifs &amp; turnover</span></h1><p class="project-purpose"><span data-en="Understand headcount changes and departures.">Comprendre les mouvements d’effectifs et les départs.</span></p></div><span class="demo-note"><span data-en="Synthetic data">Données fictives</span></span></div>
+<details class="project-details" open><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Chaque ligne du jeu de données (200+ mouvements fictifs) est un événement daté — embauche ou départ — avec département, poste, motif et ancienneté.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Construction d'indicateurs RH (turnover, ancienneté), requêtes SQL sur un journal d'événements, agrégations conditionnelles en Python.</p>
+      </div>
+    </div></details>
+</div></header>
 
 <section class="tight">
   <div class="container">
     <nav class="proj-tabs reveal" aria-label="Sections du projet">
       <a href="#analyse"><span data-en="Interactive demo">Démo interactive</span></a>
+      <a href="#donnees"><span data-en="Data">Données</span></a>
       <a href="#modele-donnees">Modèle de données</a>
       <a href="#code">Exemple de code</a>
     </nav>
@@ -70,7 +82,17 @@
         <div class="kpi"><span class="label">Ancienneté moyenne (départs)</span><span class="value" id="kpi-anciennete">—</span></div>
       </div>
 
-      <div class="chart-grid">
+      <div class="insight-panel">
+        <div class="ip-head">
+          <div class="ip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct à partir des filtres actifs</span></div>
+        </div>
+        <div class="insight-list" id="insight-list"></div>
+      </div>
+
+      <details class="dashboard-detail"><summary><span data-en="More analysis">Analyses complémentaires</span></summary><div class="chart-grid">
         <div class="chart-box">
           <h4>Évolution mensuelle — embauches vs départs</h4>
 
@@ -82,8 +104,7 @@
           <canvas id="chart-motif"></canvas>
         </div>
       </div>
-
-      <details class="dashboard-detail"><summary><span data-en="More analysis">Analyses complémentaires</span></summary><div class="chart-grid thirds">
+      <div class="chart-grid thirds">
         <div class="chart-box">
           <h4>Départements les plus touchés</h4>
 
@@ -101,7 +122,16 @@
         </div>
       </div></details>
 
-      <details class="dashboard-detail"><summary><span data-en="Explore detailed data">Explorer les données détaillées</span></summary><div class="table-wrap">
+    </div>
+    </div>
+
+    <div class="subsection tab-panel" id="donnees" hidden>
+      <div class="section-head">
+                <h2><span data-en="Every movement, row by row">Chaque mouvement, ligne par ligne</span></h2>
+        <p><span data-en="Filtered with the same criteria as the dashboard above.">Filtrées selon les mêmes critères que le dashboard ci-dessus.</span></p>
+      </div>
+      <div class="dash" style="padding-top:22px;">
+      <div class="table-wrap">
         <div class="table-scroll">
           <table class="data-table" id="table">
             <thead>
@@ -125,19 +155,8 @@
             <button id="pager-next">›</button>
           </div>
         </div>
-      </div></details>
-
-      <details class="dashboard-detail"><summary><span data-en="Read insights">Lire les observations</span></summary><div class="insight-panel">
-        <div class="ip-head">
-          <div class="ip-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
-          </div>
-          <div><h4>Insights générés automatiquement</h4><span>Recalculés en direct à partir des filtres actifs</span></div>
-        </div>
-        <div class="insight-list" id="insight-list"></div>
-      </div></details>
-
-    </div>
+      </div>
+      </div>
     </div>
 
     <div class="subsection tab-panel" id="modele-donnees" hidden>
@@ -259,16 +278,6 @@ print("Departements a surveiller :", a_surveiller.round(1).to_dict())</code></pr
       </div>
     </div>
 
-    <details class="project-details"><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
-      <div class="card">
-        <h3>Approche</h3>
-        <p>Chaque ligne du jeu de données (200+ mouvements fictifs) est un événement daté — embauche ou départ — avec département, poste, motif et ancienneté.</p>
-      </div>
-      <div class="card">
-        <h3>Ce que ce projet démontre</h3>
-        <p>Construction d'indicateurs RH (turnover, ancienneté), requêtes SQL sur un journal d'événements, agrégations conditionnelles en Python.</p>
-      </div>
-    </div></details>
 <div class="next-proj reveal">
       <a href="ventes.html">← Projet précédent : Ventes — Retail &amp; e-commerce</a>
       <a href="support.html">Projet suivant : Support — Tickets &amp; SLA →</a>

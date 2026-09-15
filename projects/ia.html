@@ -80,7 +80,18 @@
 <div class="nav-actions"><div class="language-switch" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" aria-label="Français">FR</button><button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button></div></div>
 </div></nav>
 
-<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="LLM agents &amp; metadata">Agents LLM &amp; métadonnées</span></h1><p class="project-purpose"><span data-en="Explore automated analysis that preserves privacy.">Explorer une analyse automatisée qui préserve la confidentialité.</span></p></div><span class="demo-note"><span data-en="Synthetic data · pre-recorded LLM outputs">Données fictives · sorties LLM préenregistrées</span></span></div></div></header>
+<header class="proj-hero"><div class="container"><a class="project-back" href="../index.html#projets">← <span data-en="All projects">Tous les projets</span></a><div class="project-heading"><div><h1><span data-en="LLM agents &amp; metadata">Agents LLM &amp; métadonnées</span></h1><p class="project-purpose"><span data-en="Explore automated analysis that preserves privacy.">Explorer une analyse automatisée qui préserve la confidentialité.</span></p></div><span class="demo-note"><span data-en="Synthetic data · pre-recorded LLM outputs">Données fictives · sorties LLM préenregistrées</span></span></div>
+<details class="project-details" open><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
+      <div class="card">
+        <h3>Approche</h3>
+        <p>Le prototype original (mémoire de Master UNIGE) tourne en local avec CrewAI, GPT-4o et Pydantic pour les contrats d'artefacts. Cette démo en rejoue l'architecture dans le navigateur : le module système s'exécute réellement, les sorties d'agents sont pré-enregistrées — un site public ne peut exposer ni clé d'API ni coût variable.</p>
+      </div>
+      <div class="card">
+        <h3>Ce que ce projet démontre</h3>
+        <p>Séparation données–raisonnement, orchestration multi-agents avec artefacts traçables, guardrails avec reprise contrôlée, audit automatisé de confidentialité.</p>
+      </div>
+    </div></details>
+</div></header>
 
 <section class="tight">
   <div class="container">
@@ -391,16 +402,6 @@ confidentiality_tester:
       </div>
     </div>
 
-    <details class="project-details"><summary><span data-en="About this project">À propos du projet</span></summary><div class="explain-grid">
-      <div class="card">
-        <h3>Approche</h3>
-        <p>Le prototype original (mémoire de Master UNIGE) tourne en local avec CrewAI, GPT-4o et Pydantic pour les contrats d'artefacts. Cette démo en rejoue l'architecture dans le navigateur : le module système s'exécute réellement, les sorties d'agents sont pré-enregistrées — un site public ne peut exposer ni clé d'API ni coût variable.</p>
-      </div>
-      <div class="card">
-        <h3>Ce que ce projet démontre</h3>
-        <p>Séparation données–raisonnement, orchestration multi-agents avec artefacts traçables, guardrails avec reprise contrôlée, audit automatisé de confidentialité.</p>
-      </div>
-    </div></details>
 <div class="next-proj reveal">
       <a href="qualite-donnees.html">← Projet précédent : Qualité — Détection d'anomalies</a>
       <a href="../index.html#projets">Retour aux projets →</a>
